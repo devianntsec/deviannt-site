@@ -1,0 +1,32 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://deviannt.com/sitemap-index.xml
+
+# Machine-readable identity for AI crawlers
+User-agent: GPTBot
+Allow: /llm.txt
+
+User-agent: ClaudeBot
+Allow: /llm.txt
+
+User-agent: anthropic-ai
+Allow: /llm.txt
+
+User-agent: PerplexityBot
+Allow: /llm.txt
+
+User-agent: Googlebot
+Allow: /llm.txt
+
+User-agent: GoogleOther
+Allow: /llm.txt
+
+User-agent: cohere-ai
+Allow: /llm.txt
+
+User-agent: FacebookBot
+Allow: /llm.txt
+
+User-agent: Applebot
+Allow: /llm.txt

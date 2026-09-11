@@ -1,0 +1,445 @@
+/* ==========================================================================
+   ANIMATIONS.CSS - Todas las animaciones del portfolio
+   Versión DARK THEME
+   ========================================================================== */
+
+/* ==========================================================================
+   1. TITLE ANIMATIONS
+   ========================================================================== */
+@keyframes highlight-grow {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}
+
+@keyframes line-right-grow {
+  from { left: 0; }
+  to   { left: calc(100% - 4px); }
+}
+
+@keyframes dot-right-grow {
+  from { left: 0; transform: translateX(0); }
+  to   { left: calc(100% - 4px); transform: translateX(50%); }
+}
+
+/* ==========================================================================
+   2. BASIC EFFECTS
+   ========================================================================== */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+@keyframes float-natural {
+  0%   { transform: translate(0, 0) rotate(0deg); }
+  20%  { transform: translate(1px, -1px) rotate(-0.3deg); }
+  40%  { transform: translate(-1px, -2px) rotate(0.2deg); }
+  60%  { transform: translate(2px, 1px) rotate(-0.2deg); }
+  80%  { transform: translate(-1px, 2px) rotate(0.3deg); }
+  100% { transform: translate(0, 0) rotate(0deg); }
+}
+
+@keyframes shake {
+  0%, 100%                         { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90%          { transform: translateX(-3px); }
+  20%, 40%, 60%, 80%               { transform: translateX(3px); }
+}
+
+/* ==========================================================================
+   3. CAPTCHA ANIMATIONS - DARK
+   ========================================================================== */
+@keyframes selected-pulse {
+  0%, 100% {
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.5),
+                inset 0 0 0 2px #3B82F6;
+  }
+  50% {
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.6),
+                inset 0 0 0 2px #60A5FA;
+  }
+}
+
+@keyframes selected-pop {
+  from {
+    transform: translate(-50%, -50%) translate(2px, 4px) scale(0.6) rotate(-90deg);
+    opacity: 0;
+  }
+  to {
+    transform: translate(-50%, -50%) translate(2px, 4px) scale(1) rotate(0deg);
+    opacity: 1;
+  }
+}
+
+@keyframes icon-enter {
+  from {
+    opacity: 0;
+    transform: scale(0.5) rotate(-15deg);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1.1) rotate(0deg);
+  }
+}
+
+@keyframes text-slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+    background: rgba(15, 27, 46, 0.85) !important;
+    color: #94A3B8 !important;
+  }
+  to {
+    opacity: 1;
+    transform: translateY(-2px);
+    background: rgba(59, 130, 246, 0.85) !important;
+    color: #ffffff !important;
+  }
+}
+
+@keyframes icon-float {
+  0%, 100% { transform: translate(-50%, -50%) translate(2px, 4px); }
+  50%       { transform: translate(-50%, -50%) translate(2px, 2px); }
+}
+
+@keyframes border-pulse {
+  0%, 100% {
+    border-color: #3B82F6;
+    box-shadow: 0 0 0 0 rgba(59, 130, 246, 0);
+  }
+  50% {
+    border-color: #60A5FA;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
+  }
+}
+
+/* Aplicaciones específicas */
+.captcha-cell.selected .captcha-cell-svg  { animation: icon-enter 0.8s var(--transition-bezier); }
+.captcha-cell.selected .captcha-cell-text { animation: text-slide-up 0.5s var(--transition-bezier) both; }
+.captcha-cell.selected:has(.captcha-cell-image)::before { animation: border-pulse 2s infinite; }
+
+/* ==========================================================================
+   4. CONNECTION LINE
+   ========================================================================== */
+@keyframes line-extend {
+  0% {
+    stroke-dasharray: 0, 1000px;
+    stroke-dashoffset: 0;
+    opacity: 0;
+  }
+  10% { opacity: 1; }
+  100% {
+    stroke-dasharray: 1000px, 0;
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+}
+
+#connection-path.animating {
+  animation: line-extend 1.4s cubic-bezier(0.77, 0, 0.175, 1) forwards;
+}
+
+#connection-path.visible {
+  opacity: 1;
+  stroke-dasharray: none;
+  stroke-dashoffset: 0;
+}
+
+/* ==========================================================================
+   5. CONTACT ANIMATIONS
+   ========================================================================== */
+@keyframes contact-icon-appear {
+  0%   { opacity: 0; transform: translateY(20px) scale(0.8); }
+  50%  { opacity: 0.9; transform: translateY(-5px) scale(1.08); }
+  80%  { transform: translateY(2px) scale(1.02); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes icon-fade-out {
+  0%   { opacity: 1; transform: translateY(0) scale(1); }
+  100% { opacity: 0; transform: translateY(-20px) scale(0.8); }
+}
+
+@keyframes content-appear {
+  0%   { opacity: 0; transform: scale(0.9); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes slide-left-appear {
+  0%   { opacity: 0; transform: translateX(-20px); }
+  100% { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes icon-stagger-appear {
+  0%   { opacity: 0; transform: translateX(-15px); }
+  100% { opacity: 1; transform: translateX(0); }
+}
+
+.contact-expanded-instance.is-hiding .contact-icon-item-expanded {
+  animation: icon-fade-out 0.3s ease forwards;
+}
+
+.contact-expanded-instance.is-showing-original .social-card__content {
+  animation: content-appear 0.3s ease 0.1s forwards;
+}
+
+.social-card__content.slide-left-animate {
+  animation: slide-left-appear 0.4s var(--transition-bezier) forwards;
+}
+
+.social-card__content.slide-left-animate a {
+  animation: icon-stagger-appear 0.3s var(--transition-bezier) forwards;
+}
+
+.social-card__content.slide-left-animate a:nth-child(1) { animation-delay: 0.05s; }
+.social-card__content.slide-left-animate a:nth-child(2) { animation-delay: 0.1s;  }
+.social-card__content.slide-left-animate .social-card__handle {
+  animation: icon-stagger-appear 0.3s var(--transition-bezier) 0.15s forwards;
+}
+
+/* ==========================================================================
+   6. UTILITY ANIMATIONS
+   ========================================================================== */
+.content-stack {
+  transition: transform 0.6s var(--transition-bezier),
+              align-items 0.6s ease,
+              top 0.7s var(--transition-bezier) !important;
+}
+
+/* ==========================================================================
+   7. SOCIAL CARD EXPANSION ANIMATIONS
+   ========================================================================== */
+@keyframes social-card-grow {
+  0% {
+    left: var(--start-left); top: var(--start-top);
+    width: var(--start-width); height: var(--start-height);
+    border-width: 4px;
+  }
+  100% {
+    left: var(--end-left); top: var(--end-top);
+    width: var(--end-width); height: var(--end-height);
+    border-width: 4px;
+  }
+}
+
+@keyframes social-card-shrink {
+  0% {
+    left: var(--start-left); top: var(--start-top);
+    width: var(--start-width); height: var(--start-height);
+    border-width: 4px;
+  }
+  100% {
+    left: var(--end-left); top: var(--end-top);
+    width: var(--end-width); height: var(--end-height);
+    border-width: 4px;
+  }
+}
+
+@keyframes label-tracking-expand {
+  0%   { letter-spacing: -0.05em; padding: 4px 12px; }
+  100% { letter-spacing: -0.03em; padding: 4px 16px; }
+}
+
+@keyframes label-tracking-contract {
+  0%   { letter-spacing: -0.03em; padding: 4px 16px; }
+  100% { letter-spacing: -0.05em; padding: 4px 12px; }
+}
+
+/* Base para elemento animado */
+.social-card-animating {
+  position: fixed !important;
+  z-index: 20000 !important;
+  pointer-events: none !important;
+  background: var(--bg-card) !important;
+  border: 4px solid var(--primary-color) !important;
+  box-sizing: border-box !important;
+  overflow: hidden !important;
+  transition: none !important;
+  animation-timing-function: var(--transition-bezier);
+  animation-fill-mode: forwards;
+  will-change: left, top, width, height;
+  backface-visibility: hidden;
+  transform: none !important;
+  box-shadow: 0 0 30px rgba(59, 130, 246, 0.2) !important;
+}
+
+.social-card-animating .social-card {
+  width: 100%;
+  height: 100%;
+  border: none !important;
+  background: transparent;
+  position: relative;
+  overflow: visible !important;
+}
+
+.social-card-animating .social-card__inner {
+  width: 100%;
+  height: 100%;
+  background: var(--bg-card);
+  padding: 10px 0 10px 10px;
+  box-sizing: border-box;
+  overflow: visible !important;
+  position: relative;
+}
+
+/* Label durante animación */
+.social-card-animating .social-card__label {
+  position: absolute !important;
+  top: -32px !important;
+  right: -4px !important;
+  width: auto !important;
+  min-width: 0 !important;
+  background-color: var(--primary-color) !important;
+  color: #fff !important;
+  font-family: "Inter", sans-serif !important;
+  font-size: 18px !important;
+  font-weight: 500 !important;
+  text-transform: uppercase !important;
+  z-index: 100 !important;
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.4) !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  line-height: 1.2 !important;
+  white-space: nowrap !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: none !important;
+  border-radius: 0 !important;
+  transition: letter-spacing 0.8s var(--transition-bezier),
+              padding 0.8s var(--transition-bezier);
+}
+
+.social-card-animating.growing .social-card__label  { letter-spacing: -0.03em; padding: 4px 16px; }
+.social-card-animating.shrinking .social-card__label { letter-spacing: -0.05em; padding: 4px 12px; }
+
+.social-card-animating .social-card__content {
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+/* Versión expandida */
+.social-card-animating.expanded-style .contact-grid-expanded {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 15px !important;
+  width: 100% !important;
+  height: 100% !important;
+  justify-content: center !important;
+}
+
+.social-card-animating.expanded-style .contact-row-expanded {
+  display: flex !important;
+  flex-direction: row !important;
+  justify-content: center !important;
+  gap: 40px !important;
+  width: 100% !important;
+}
+
+.social-card-animating.expanded-style .contact-icon-item-expanded {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  opacity: 1 !important;
+}
+
+/* ==========================================================================
+   8. BLOG MOVEMENT ANIMATIONS
+   ========================================================================== */
+@keyframes social-card-move-to-blog {
+  0% {
+    left: var(--start-left); top: var(--start-top);
+    width: var(--start-width); height: var(--start-height);
+  }
+  100% {
+    left: var(--end-left); top: var(--end-top);
+    width: var(--end-width); height: var(--end-height);
+  }
+}
+
+@keyframes social-card-move-from-blog {
+  0% {
+    left: var(--start-left); top: var(--start-top);
+    width: var(--start-width); height: var(--start-height);
+  }
+  100% {
+    left: var(--end-left); top: var(--end-top);
+    width: var(--end-width); height: var(--end-height);
+  }
+}
+
+.social-card-animating.moving-to-blog,
+.social-card-animating.moving-from-blog { overflow: visible !important; }
+
+.social-card-animating.moving-to-blog .social-card__label,
+.social-card-animating.moving-from-blog .social-card__label {
+  position: absolute !important;
+  top: -32px !important;
+  right: -4px !important;
+  background-color: var(--primary-color) !important;
+  color: #fff !important;
+  z-index: 20001 !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: none !important;
+}
+
+.social-card-animating.moving-to-blog .social-card__content,
+.social-card-animating.moving-from-blog .social-card__content {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* ==========================================================================
+   9. DESCRIPTION ANIMATIONS
+   ========================================================================== */
+@keyframes slide-indented-to-left {
+  0%   { transform: translateX(0);    opacity: 1; padding-left: 35px; }
+  50%  { transform: translateX(-20px); opacity: 0.7; }
+  100% { transform: translateX(0);    opacity: 1; padding-left: 35px; }
+}
+
+@keyframes dash-to-links {
+  0%   { width: 20px; height: 2.5px; background-color: var(--secondary-color); left: 0; }
+  50%  { width: 20px; height: 2.5px; background-color: var(--secondary-color); left: -35px; }
+  100% { width: 20px; height: 2.5px; background-color: var(--secondary-color); left: -35px; }
+}
+
+@keyframes content-fade-in {
+  0%   { opacity: 0; transform: translateX(20px); }
+  100% { opacity: 1; transform: translateX(0); }
+}
+
+.description--indented.animate-slide-left {
+  animation: slide-indented-to-left 0.6s var(--transition-bezier) forwards;
+}
+
+.description--indented.animate-slide-left::before {
+  animation: dash-to-links 0.6s var(--transition-bezier) forwards;
+}
+
+.description--indented.projects-links-mode .projects-links-wrapper {
+  animation: content-fade-in 0.4s var(--transition-bezier) 0.2s both;
+}
+
+/* ==========================================================================
+   10. PREFERS-REDUCED-MOTION
+   El sitio depende bastante de animación (waves de canvas, tilt 3D en
+   loop, línea de conexión SVG, entradas con keyframes) para su
+   personalidad visual, pero nada de eso es esencial para entender o usar
+   el contenido. Para quien activó "reducir movimiento" en su SO/navegador
+   colapsamos duraciones de animation/transition CSS a prácticamente cero
+   en vez de quitarlas: los elementos igual llegan a su estado final (no
+   quedan a medio camino ni rompen JS que espera un setTimeout equivalente
+   a la duración), solo que sin el movimiento intermedio.
+   Los loops manejados en JS (canvas de olas, auto-rotate del tilt, la
+   línea de conexión) tienen su propio check de matchMedia — ver
+   js/waves.js, js/tilt-effect.js y js/connection.js.
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

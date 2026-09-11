@@ -1,0 +1,1175 @@
+/* ==========================================================================
+   RESPONSIVE.CSS - Versión DARK THEME
+   ========================================================================== */
+
+/* ==========================================================================
+   1. VARIABLES Y CONFIGURACIÓN RESPONSIVE
+   ========================================================================== */
+:root {
+  --title-highlight-padding: 0 25px;
+  --title-highlight-padding-mobile: 0 15px;
+  --title-dot-size: 16.5px;
+  --title-dot-size-mobile: 12px;
+  --mobile-nav-padding: 16px;
+  --mobile-font-size-title: 32px;
+  --mobile-font-size-subtitle: 16px;
+  --mobile-font-size-text: 14px;
+  --mobile-social-bottom: 20px;
+  --mobile-social-left: 50%;
+  --mobile-social-width: 220px;
+  --mobile-social-height: 70px;
+  --mobile-social-zindex: 9999;
+  --mobile-social-margin-top: 10px;
+  --mobile-footer-total-height: calc(var(--mobile-social-height) + 30px);
+}
+
+/* ==========================================================================
+   2. NAVBAR RESPONSIVE
+   ========================================================================== */
+
+.hamburger-menu {
+  display: none !important;
+}
+
+@media screen and (max-width: 768px) {
+  nav {
+    padding: 10px 12px;
+    justify-content: center;
+    position: relative;
+    z-index: 1000;
+    background: var(--bg-base);
+    border-bottom: 1px solid var(--bg-subtle);
+  }
+
+  .navbar {
+    position: static !important;
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 20px !important;
+    max-height: none !important;
+    overflow: visible !important;
+    pointer-events: auto !important;
+    opacity: 1 !important;
+    padding: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
+    width: 100% !important;
+  }
+
+  .navbar a {
+    font-size: 0.9em;
+    padding: 6px 0;
+    color: var(--text-primary);
+    white-space: nowrap;
+    width: auto !important;
+    text-align: center;
+    border-bottom: none !important;
+  }
+
+  .navbar a:hover {
+    color: var(--accent-blue);
+  }
+
+  .selector {
+    display: block;
+    bottom: -4px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  nav {
+    padding: 8px 6px;
+  }
+
+  .navbar {
+    gap: 14px !important;
+  }
+
+  .navbar a {
+    font-size: 0.78em;
+  }
+}
+
+@media screen and (max-width: 360px) {
+  .navbar {
+    gap: 10px !important;
+  }
+
+  .navbar a {
+    font-size: 0.72em;
+  }
+}
+
+/* ==========================================================================
+   3. SOCIAL MEDIA BOX MÓVIL - FOOTER FIJO
+   ========================================================================== */
+@media screen and (max-width: 768px) {
+  body {
+    min-height: 100vh;
+    position: relative;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    background: var(--bg-base);
+  }
+
+  .layout {
+    min-height: 100vh;
+    box-sizing: border-box !important;
+    position: relative !important;
+  }
+
+  /* Social wrapper flotante: visible en todas las secciones EXCEPTO contact */
+  .social-wrapper {
+    position: fixed !important;
+    bottom: 20px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    width: 280px !important;
+    height: 80px !important;
+    z-index: var(--mobile-social-zindex) !important;
+    animation: float-natural 4s ease-in-out infinite !important;
+    margin: 0 !important;
+    top: auto !important;
+    right: auto !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+    box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.4), 0 0 20px rgba(59, 130, 246, 0.15) !important;
+  }
+
+  /* En contacto, la social-wrapper flotante se oculta; usamos la card inline */
+  .layout.contact-active .social-wrapper:not(.contact-expanded-mobile):not(#contact-expanded-card) {
+    display: none !important;
+  }
+
+  .social-wrapper.position-about,
+  .social-wrapper.position-projects,
+  .social-wrapper.position-blog {
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    bottom: 20px !important;
+    top: auto !important;
+    right: auto !important;
+  }
+
+  .social-card-animating,
+  .social-card-animating.growing,
+  .social-card-animating.shrinking,
+  .social-card-animating.moving-to-blog,
+  .social-card-animating.moving-from-blog { display: none !important; }
+
+  .social-wrapper {
+    transition: none !important;
+    animation: float-natural 4s ease-in-out infinite !important;
+  }
+
+  .social-card {
+    transform: none !important;
+    transition: none !important;
+    background: var(--bg-card) !important;
+    border: 4px solid var(--primary-color) !important;
+  }
+
+  .social-card__content {
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+    min-width: 0;
+  }
+
+  .social-card__content img[src*=".svg"] {
+    width: 28px;
+    height: 28px;
+    flex-shrink: 0;
+  }
+
+  .social-card__handle {
+    font-size: 14px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 140px;
+    color: var(--accent-blue);
+  }
+
+  .social-card__label {
+    font-size: 16px;
+    top: -28px;
+    padding: 3px 10px;
+    white-space: nowrap;
+  }
+}
+
+/* ==========================================================================
+   4. ABOUT ME MÓVIL
+   ========================================================================== */
+@media screen and (max-width: 768px) {
+  .layout:not(.projects-active):not(.blog-active):not(.contact-active) .ig-post {
+    display: block !important;
+  }
+
+  .layout:not(.projects-active):not(.blog-active):not(.contact-active) .projects-captcha {
+    display: none !important;
+  }
+
+  .layout {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .layout-left,
+  .layout-right {
+    width: 100% !important;
+    position: relative !important;
+    height: auto !important;
+    min-height: auto !important;
+    padding: 20px;
+  }
+
+  .layout-left {
+    order: 1 !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    padding: 35px 15px 10px !important;
+  }
+
+  .ig-post {
+    width: 100% !important;
+    max-width: 291px !important;
+    height: auto !important;
+    margin: 0 auto !important;
+    margin-top: 15px !important;
+    position: relative !important;
+    display: block !important;
+    background: var(--bg-card) !important;
+    border: 1px solid var(--bg-subtle) !important;
+  }
+
+  .ig-post.ig-animate-in { opacity: 1; }
+
+  .ig-post__image-wrapper { aspect-ratio: 1 / 1; }
+
+  .ig-post__actions img { width: 20px; height: 20px; }
+
+  /* Face bounding box móvil */
+  .face-bounding-box {
+    width: 35%;
+    height: 38%;
+    top: 18%;
+    left: 42%;
+    border-width: 3.5px;
+    position: absolute;
+  }
+
+  .face-bounding-box__label {
+    position: absolute;
+    font-size: 12px;
+    bottom: 100%;
+    left: -4px;
+    right: -4px;
+    width: auto;
+    padding: 8px 12px;
+    background-color: var(--primary-color);
+    color: white;
+    font-family: "Inter", sans-serif;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    line-height: 1.4;
+    text-align: center;
+    white-space: normal;
+    word-break: keep-all;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 3.5px solid var(--primary-color);
+    border-bottom: none;
+    box-sizing: border-box;
+    box-shadow: 0 -2px 8px rgba(59, 130, 246, 0.3);
+    z-index: 15;
+  }
+
+  @media screen and (max-width: 480px) {
+    .ig-post {
+      max-width: 245px !important;
+      margin-top: 7px !important;
+    }
+
+    .layout-left { padding-top: 27px !important; }
+
+    .face-bounding-box__label {
+      font-size: 11px;
+      padding: 6px 10px;
+      left: -3px;
+      right: -3px;
+    }
+  }
+
+  @media screen and (max-width: 360px) {
+    .face-bounding-box__label {
+      font-size: 10px;
+      padding: 5px 8px;
+      line-height: 1.3;
+      left: -2px;
+      right: -2px;
+    }
+  }
+
+  .layout-right {
+    order: 2 !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+  }
+
+  .layout-right .content-stack {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    transform: none !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 15px !important;
+  }
+
+  .layout-right .content-stack-inner {
+    min-height: auto !important;
+    align-items: center !important;
+    text-align: center !important;
+    padding-top: var(--title-top-mobile) !important; /* antes: 30px */
+    padding-bottom: 150px !important;
+  }
+
+  .title-select {
+    font-size: var(--mobile-font-size-title) !important;
+    margin-top: 0 !important;
+    margin-bottom: 15px !important;
+    padding: 0 15px !important;
+    justify-content: center !important;
+    color: var(--text-primary) !important;
+  }
+
+  .title-select span { font-size: var(--mobile-font-size-title) !important; }
+
+  .subtitle {
+    font-size: var(--mobile-font-size-subtitle) !important;
+    margin-bottom: 15px !important;
+    justify-content: center !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    color: var(--accent-blue) !important;
+  }
+
+  .subtitle .typed-text {
+    display: inline-block !important;
+    width: auto !important;
+    max-width: 100% !important;
+  }
+
+  .description {
+    font-size: var(--mobile-font-size-text) !important;
+    max-width: 100% !important;
+    width: 100% !important;
+    margin: 10px 0 !important;
+    padding: 0 15px !important;
+    text-align: center !important;
+    box-sizing: border-box !important;
+    color: var(--text-primary) !important;
+  }
+
+  .description--indented {
+    padding-left: 0 !important;
+    width: 100% !important;
+    text-align: center !important;
+    margin-top: 15px !important;
+    margin-bottom: 0 !important;
+    color: var(--text-primary) !important;
+  }
+
+  .description--indented::before { display: none !important; }
+}
+
+/* ==========================================================================
+   5. PROJECTS MÓVIL
+   ========================================================================== */
+@media screen and (max-width: 768px) {
+  .layout.projects-active .ig-post       { display: none !important; }
+  .layout.projects-active .projects-captcha { display: flex !important; }
+
+  .layout.projects-active .layout-left {
+    order: 1 !important;
+    padding: 20px 15px !important;
+  }
+
+  .layout.projects-active .layout-right { order: 2 !important; }
+
+  .layout-right.is-projects { padding: 20px 15px !important; }
+
+  .layout-right.is-projects .content-stack {
+    transform: none !important;
+    align-items: center !important;
+    width: 100% !important;
+  }
+
+  .layout-right.is-projects .content-stack-inner {
+    align-items: center !important;
+    text-align: center !important;
+    padding-bottom: 180px !important;
+    /* padding-top heredado de la regla genérica .layout-right .content-stack-inner
+       (var(--title-top-mobile)) — mismo anclaje que about/blog/contact */
+  }
+
+  .layout-right.is-projects .title-select,
+  .layout-right.is-projects .title-select span {
+    text-align: center !important;
+    justify-content: center !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    width: 100% !important;
+    display: flex !important;
+  }
+
+  .layout-right.is-projects .title-select { padding: 0 15px !important; }
+  .layout-right.is-projects .title-select span { display: inline-block !important; }
+
+  .layout-right.is-projects .subtitle,
+  .layout-right.is-projects .subtitle .typed-text,
+  .layout-right.is-projects .description,
+  .layout-right.is-projects .description--indented {
+    text-align: center !important;
+    justify-content: center !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    width: 100% !important;
+  }
+
+  .layout-right.is-projects .subtitle .cursor { display: none !important; }
+  .layout-right.is-projects .description--indented { padding-left: 0 !important; }
+  .layout-right.is-projects .description--indented::before { display: none !important; }
+
+  .projects-links-wrapper {
+    justify-content: center !important;
+    padding-left: 0 !important;
+    margin-bottom: 0 !important;
+  }
+
+  .projects-links-wrapper::before { display: none !important; }
+
+  .project-link, .project-link-separator { font-size: 14px; }
+
+  .layout-left .projects-captcha {
+    display: flex !important;
+    padding: 20px 15px !important;
+    height: auto !important;
+    min-height: auto !important;
+  }
+
+  /* Captcha reducido */
+  .captcha-card {
+    width: 100% !important;
+    max-width: 248px !important;
+    margin: 0 auto !important;
+    background: var(--bg-card) !important;
+    border: 1px solid var(--bg-subtle) !important;
+  }
+
+  .captcha-card.captcha-animate-in { opacity: 1; }
+
+  .captcha-grid {
+    gap: 3.8px;
+    background: var(--bg-deep) !important;
+  }
+
+  .captcha-cell-text { font-size: 7.6px !important; }
+  .captcha-title     { font-size: 22.8px; }
+  .captcha-subtitle  { font-size: 10.45px; }
+
+  .captcha-card .captcha-footer {
+    padding: 4px 10px !important;
+    background-color: var(--bg-card) !important;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0;
+    border-top: 1px solid var(--bg-subtle) !important;
+    width: 100%;
+    box-sizing: border-box;
+    min-height: auto;
+  }
+
+  .captcha-card .captcha-footer-icons {
+    display: flex;
+    gap: 14px;
+    align-items: center;
+    position: relative;
+    z-index: 30 !important;
+  }
+
+  .captcha-card .captcha-footer-icon-container {
+    position: relative;
+    display: inline-block;
+    padding: 4px 4px !important;
+    margin: -4px -4px !important;
+    cursor: pointer;
+    line-height: 0;
+  }
+
+  .captcha-card .captcha-footer-icons img {
+    width: 17.1px;
+    height: 17.1px;
+    display: block;
+    position: relative;
+    user-select: none;
+    -webkit-user-drag: none;
+    filter: invert(1) brightness(0.4) !important;
+    transition: transform 0.2s var(--transition-bezier), filter 0.2s ease;
+    z-index: 30 !important;
+  }
+
+  .captcha-card .captcha-verify {
+    margin-top: 5px;
+    margin-right: 0;
+    padding: 18px 12px !important;
+    font-size: 13.3px;
+    border: none;
+    border-radius: 2px;
+    color: white;
+    background: linear-gradient(135deg, #2563EB 0%, #3B82F6 100%) !important;
+    font-family: "Inter", sans-serif;
+    font-weight: 500;
+    letter-spacing: -0.05em;
+    cursor: pointer;
+    transition: all 0.2s var(--transition-bezier);
+    position: relative;
+    z-index: 30 !important;
+    outline: none;
+    line-height: 1 !important;
+    height: 22px !important;
+    min-height: 0 !important;
+    max-height: 22px !important;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box !important;
+  }
+
+  .captcha-card .captcha-verify:hover,
+  .captcha-card .captcha-verify:active,
+  .captcha-card .captcha-verify:focus {
+    transform: none !important;
+    box-shadow: none !important;
+    background: linear-gradient(135deg, #2563EB 0%, #3B82F6 100%) !important;
+    transition: none !important;
+  }
+}
+
+
+/* ==========================================================================
+   6. BLOG MÓVIL - MODIFICADO: Misma altura y espaciado que contacto
+   ========================================================================== */
+
+@media screen and (max-width: 768px) {
+  .layout.blog-active .ig-post,
+  .layout.blog-active .projects-captcha { display: none !important; }
+
+  .layout.blog-active .layout-left { display: none !important; }
+
+  .layout-right.is-blog {
+    position: relative !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: auto !important;
+    overflow-y: visible !important;
+    padding: 20px 20px 20px 20px !important; /* antes: 60px 20px 20px 20px */
+    order: 1 !important;
+    background: transparent !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: flex-start !important;
+    align-items: flex-start !important;
+  }
+
+  .layout-right.is-blog .content-stack {
+    position: relative !important;
+    top: 0 !important;
+    left: 0 !important;
+    transform: none !important;
+    width: 100% !important;
+    max-width: 600px !important;
+    margin: 0 auto !important;
+    padding: 0 !important;
+    padding-top: var(--title-top-mobile) !important; /* antes: 0 */
+  }
+
+  .layout-right.is-blog .content-stack-inner {
+    min-height: auto !important;
+    padding: 0 !important;
+    padding-bottom: 120px !important;
+    margin: 0 !important;
+    align-items: flex-start !important;
+    width: 100% !important;
+  }
+
+  /* Layout de 2 columnas → se aplana a 1 columna en móvil */
+  .blog-two-col {
+    flex-direction: column !important;
+    gap: 24px !important;
+  }
+
+  .blog-left-col {
+    width: 100% !important;
+  }
+
+  /* Anchor del social card — oculto en móvil (va al footer fijo) */
+  .blog-social-anchor {
+    display: none !important;
+  }
+
+  /* Título */
+  .layout-right.is-blog .title-select {
+    font-size: var(--mobile-font-size-title) !important;
+    margin: 0 0 15px 0 !important;
+    padding: 0 15px !important;
+    position: relative !important;
+    top: 0 !important;
+    transform: none !important;
+  }
+
+  /* Subtítulo */
+  .layout-right.is-blog .subtitle {
+    font-size: var(--mobile-font-size-subtitle) !important;
+    margin: 0 0 16px 0 !important;
+  }
+
+  /* Descripción */
+  .layout-right.is-blog .description {
+    font-size: var(--mobile-font-size-text) !important;
+    padding: 0 15px !important;
+    margin: 0 0 12px 0 !important;
+    max-width: 100% !important;
+    color: var(--text-primary) !important;
+  }
+
+  /* CTA btn full-width en móvil */
+  .blog-cta-btn {
+    width: calc(100% - 30px) !important;
+    margin-left: 15px !important;
+    justify-content: center !important;
+  }
+
+  /* Feed container full-width */
+  .blog-right-col {
+    width: 100% !important;
+  }
+
+  .blog-feed-container {
+    max-width: 100% !important;
+    margin-top: 0 !important;
+    padding: 0 4px !important;
+  }
+}
+
+/* ==========================================================================
+   7. CONTACT MÓVIL — card expandida en flujo, justo después del subtítulo
+   ========================================================================== */
+@media screen and (max-width: 768px) {
+  .layout.contact-active .ig-post,
+  .layout.contact-active .projects-captcha { display: none !important; }
+
+  .layout.contact-active .layout-left { display: none !important; }
+
+  .layout-right.is-contact {
+    position: relative !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 100vh !important;
+    padding: 20px 20px 120px !important; /* antes: 40px 20px 120px */
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: flex-start !important;
+    align-items: center !important;
+    background: transparent !important;
+    top: auto !important;
+    left: auto !important;
+    z-index: 30 !important;
+    pointer-events: auto !important;
+  }
+
+  .layout-right.is-contact .content-stack {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    transform: none !important;
+    width: 100% !important;
+    max-width: 600px !important;
+    margin: 0 auto !important;
+    padding: 0 !important;
+  }
+
+  .layout-right.is-contact .content-stack-inner {
+    min-height: auto !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    width: 100%;
+    padding-bottom: 60px !important;
+  }
+
+  .layout-right.is-contact .title-select {
+    font-size: 32px !important;
+    padding: 0 10px !important;
+    margin: 0 0 15px 0 !important;
+    text-align: center !important;
+    color: var(--text-primary) !important;
+  }
+
+  .layout-right.is-contact .subtitle {
+    font-size: var(--mobile-font-size-subtitle) !important;
+    margin: 0 0 25px 0 !important;
+    text-align: center !important;
+    width: 100%;
+    color: var(--accent-blue) !important;
+  }
+
+  .layout-right.is-contact .description,
+  .layout-right.is-contact .description--indented { display: none !important; }
+
+  /* ── CARD EXPANDIDA INLINE (móvil contact) ── */
+  .contact-expanded-mobile {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+    transform: none !important;
+    /* Ocupa todo el ancho menos márgenes */
+    width: calc(100% - 40px) !important;
+    max-width: 480px !important;
+    height: auto !important;
+    min-height: 180px !important;
+    /* ── DISTANCIA ENTRE SUBTÍTULO Y CARD ───────────────────────────────
+       Este margin-top empuja la card hacia abajo, alejándola del subtítulo
+       y dando sensación de centrado vertical en pantalla.
+       Valor actual: 40px. Ajusta manualmente si necesitas más/menos espacio.
+       ─────────────────────────────────────────────────────────────────── */
+    margin-top: 40px !important;
+    /* Centrado horizontal */
+    margin-right: auto !important;
+    margin-left: auto !important;
+    margin-bottom: 30px !important;
+    display: block !important;
+    z-index: 10 !important;
+    pointer-events: auto !important;
+    animation: none !important;
+    box-sizing: border-box !important;
+    /* Sin float-natural: no tiene sentido en flujo */
+    float: none !important;
+  }
+
+  /* Aseguramos que el social-card dentro tenga borde correcto */
+  .contact-expanded-mobile .social-card {
+    width: 100% !important;
+    height: auto !important;
+    min-height: 160px !important;
+    border: 4px solid var(--primary-color) !important;
+    background: var(--bg-card) !important;
+    box-sizing: border-box !important;
+    position: relative !important;
+    box-shadow: 0 0 30px rgba(59, 130, 246, 0.15) !important;
+  }
+
+  .contact-expanded-mobile .social-card__inner {
+    width: 100% !important;
+    height: auto !important;
+    /* ── PADDING INTERNO DE LA CARD ─────────────────────────────────────
+       Controla el espacio interior de la card expandida en móvil.
+       Valor actual: 28px 20px 20px. Ajusta manualmente si lo necesitas.
+       ─────────────────────────────────────────────────────────────────── */
+    padding: 28px 20px 20px !important;
+    background: var(--bg-card) !important;
+    box-sizing: border-box !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    overflow: visible !important;
+  }
+
+  .contact-expanded-mobile .social-card__label {
+    top: -28px !important;
+    font-size: 16px !important;
+    padding: 4px 12px !important;
+    background-color: var(--primary-color) !important;
+    right: -4px !important;
+  }
+
+  .contact-expanded-mobile .social-card__content {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 100% !important;
+    height: auto !important;
+  }
+
+  .contact-expanded-mobile .contact-grid-expanded {
+    gap: 14px !important;
+    width: 100% !important;
+  }
+
+  .contact-expanded-mobile .contact-row-expanded {
+    gap: 20px !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+  }
+
+  .contact-expanded-mobile .contact-icon-item-expanded {
+    min-width: 50px !important;
+  }
+
+  .contact-expanded-mobile .contact-icon-wrapper-expanded {
+    width: 40px !important;
+    height: 40px !important;
+  }
+
+  .contact-expanded-mobile .contact-icon-svg-expanded {
+    width: 36px !important;
+    height: 36px !important;
+  }
+
+  .contact-expanded-mobile .contact-icon-text-expanded {
+    font-size: 11px !important;
+    color: var(--accent-blue) !important;
+  }
+}
+
+/* ==========================================================================
+   8. AJUSTES GENERALES MÓVIL
+   ========================================================================== */
+@media screen and (max-width: 768px) {
+  .title-select::before,
+  .title-select::after {
+    top: 3px !important;
+    bottom: 3px !important;
+    height: calc(100% - 6px) !important;
+  }
+
+  .layout-right.is-projects .title-select::before,
+  .layout-right.is-projects .title-select::after,
+  .layout-right.is-blog .title-select::before,
+  .layout-right.is-blog .title-select::after,
+  .layout-right.is-contact .title-select::before,
+  .layout-right.is-contact .title-select::after,
+  .layout:not(.projects-active):not(.blog-active):not(.contact-active) .title-select::before,
+  .layout:not(.projects-active):not(.blog-active):not(.contact-active) .title-select::after {
+    top: 3px !important;
+    bottom: 3px !important;
+    height: calc(100% - 6px) !important;
+  }
+
+  .title-select {
+    font-size: var(--mobile-font-size-title) !important;
+    padding: 0 15px !important;
+    margin-bottom: 15px !important;
+    line-height: 1.2 !important;
+    color: var(--text-primary) !important;
+  }
+
+  .title-select span {
+    font-size: var(--mobile-font-size-title) !important;
+    line-height: 1.2 !important;
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  .title-select .line.left {
+    top: -4px !important;
+    bottom: -4px !important;
+    height: calc(100% - 0px) !important;
+    width: 3px;
+    background: var(--primary-color) !important;
+  }
+
+  .title-select .line.right {
+    top: 1px !important;
+    bottom: -9px !important;
+    height: calc(100% - 8px) !important;
+    width: 3px;
+    background: var(--primary-color) !important;
+  }
+
+  .title-select .dot-left,
+  .title-select .dot-right {
+    width: 10px;
+    height: 10px;
+    background: var(--primary-color) !important;
+  }
+
+  .title-select .dot-left {
+    top: -5px;
+    left: 2px;
+    transform: translateX(-50%);
+  }
+
+  .title-select .dot-right {
+    bottom: -2px;
+    right: -10px;
+    transform: translateX(0%);
+  }
+
+  @keyframes dot-right-grow-mobile {
+    0%   { right: calc(90%); transform: translateX(0%); }
+    100% { right: 0; transform: translateX(30%); }
+  }
+
+  .title-select.animate .dot-right  { animation: dot-right-grow-mobile 1s forwards !important; }
+  .title-select.animate .line.right { animation: line-right-grow 1s forwards !important; }
+
+  #connector-layer,
+  #connection-path,
+  .description--indented::before,
+  .projects-links-wrapper::before { display: none !important; }
+
+   /* Waves en móvil - Más alargadas horizontalmente */
+  #bg-wave {
+    position: fixed !important;
+    bottom: 0 !important;
+    right: 0 !important;
+    width: 130vw !important;
+    height: 20vh !important;
+    opacity: 0.2 !important;
+    mask-image: radial-gradient(circle at bottom right,
+      rgba(0,0,0,1) 0%,
+      rgba(0,0,0,0.85) 40%,
+      rgba(0,0,0,0.4) 65%,
+      rgba(0,0,0,0) 85%) !important;
+    -webkit-mask-image: radial-gradient(circle at bottom right,
+      rgba(0,0,0,1) 0%,
+      rgba(0,0,0,0.85) 40%,
+      rgba(0,0,0,0.4) 65%,
+      rgba(0,0,0,0) 85%) !important;
+  }
+
+  #bg-wave-tl {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 130vw !important;
+    height: 20vh !important;
+    opacity: 0.2 !important;
+    mask-image: radial-gradient(circle at top left,
+      rgba(0,0,0,1) 0%,
+      rgba(0,0,0,0.85) 40%,
+      rgba(0,0,0,0.4) 65%,
+      rgba(0,0,0,0) 85%) !important;
+    -webkit-mask-image: radial-gradient(circle at top left,
+      rgba(0,0,0,1) 0%,
+      rgba(0,0,0,0.85) 40%,
+      rgba(0,0,0,0.4) 65%,
+      rgba(0,0,0,0) 85%) !important;
+  }
+
+  body {
+    overflow-x: hidden;
+    overflow-y: auto;
+    background: var(--bg-base) !important;
+  }
+
+  * {
+    animation-duration: 0.3s !important;
+    transition-duration: 0.3s !important;
+  }
+
+  a, button, .captcha-cell, .social-card__content a {
+    min-height: 44px;
+    min-width: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  input, select, textarea { font-size: 16px; }
+
+  .layout[data-section="deviannt"] .ig-post        { display: block !important; }
+  .layout[data-section="deviannt"] .projects-captcha { display: none !important; }
+  .layout[data-section="projects"] .ig-post        { display: none !important; }
+  .layout[data-section="projects"] .projects-captcha { display: flex !important; }
+  .layout[data-section="blog"] .ig-post,
+  .layout[data-section="blog"] .projects-captcha   { display: none !important; }
+  .layout[data-section="contact"] .ig-post,
+  .layout[data-section="contact"] .projects-captcha { display: none !important; }
+}
+
+/* ==========================================================================
+   9. TABLET (768px - 1024px)
+   ========================================================================== */
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+  .layout { height: calc(100vh - 80px); }
+
+  .title-select { font-size: 48px; color: var(--text-primary); }
+  .subtitle     { font-size: 18px; color: var(--accent-blue); }
+  .description  { font-size: 16px; max-width: 500px; color: var(--text-primary); }
+
+  .ig-post    { width: 350px; background: var(--bg-card); }
+  .captcha-card { width: 280px; background: var(--bg-card); }
+
+  .social-wrapper      { width: 220px; height: 70px; }
+  .social-wrapper.position-about    { left: -40px; }
+  .social-wrapper.position-projects { left: calc(60%); }
+
+  .social-card__content img[src*=".svg"] { width: 30px; height: 30px; }
+  .social-card__handle { font-size: 14px; }
+
+  .contact-expanded-instance { width: 550px !important; height: 280px !important; }
+  .contact-row-expanded { gap: 25px !important; }
+}
+
+/* ==========================================================================
+   10. ESCRITORIO (>1024px)
+   ========================================================================== */
+@media screen and (min-width: 1025px) {
+  .hamburger-menu { display: none !important; }
+
+  .layout[data-section] .ig-post,
+  .layout[data-section] .projects-captcha { display: revert; }
+}
+
+/* ==========================================================================
+   11. UTILIDADES PARA JAVASCRIPT
+   ========================================================================== */
+@media screen and (max-width: 768px) {
+  .desktop-only { display: none !important; }
+  .mobile-only  { display: block !important; }
+  body.menu-open { overflow: hidden; }
+}
+
+/* ==========================================================================
+   12. AJUSTES MUY PEQUEÑOS (< 360px)
+   ========================================================================== */
+@media screen and (max-width: 360px) {
+  :root {
+    --mobile-font-size-title: 28px;
+    --mobile-font-size-subtitle: 14px;
+    --mobile-font-size-text: 12px;
+    --mobile-social-width: 260px;
+    --mobile-social-height: 75px;
+    --mobile-footer-total-height: calc(75px + 30px);
+  }
+
+  .social-card__content img[src*=".svg"] { width: 24px; height: 24px; }
+  .social-card__handle { font-size: 12px; max-width: 120px; }
+  .social-card__label  { font-size: 14px; top: -24px; padding: 2px 8px; }
+  .ig-post             { max-width: 300px !important; }
+  .captcha-card        { max-width: 270px !important; }
+
+  .contact-expanded-mobile {
+    width: calc(100% - 24px) !important;
+    max-width: none !important;
+    margin: 0 auto 20px auto !important;
+  }
+}
+
+/* ==========================================================================
+   13. GARANTIZAR SEPARACIÓN EN MÓVIL
+   ========================================================================== */
+@media screen and (max-width: 768px) {
+  .content-stack-inner > *:last-child { margin-bottom: 20px !important; }
+  .layout.contact-active .content-stack-inner > *:last-child { margin-bottom: 0 !important; }
+  .layout { padding-bottom: calc(100px) !important; }
+  /* En contact no necesitamos padding extra del layout */
+  .layout.contact-active { padding-bottom: 0 !important; }
+}
+
+/* ==========================================================================
+   14. COMPORTAMIENTOS TÁCTILES
+   ========================================================================== */
+@media screen and (max-width: 768px) {
+  body {
+    overscroll-behavior: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .layout { touch-action: pan-y; }
+  .layout[data-section] { transition: none !important; }
+}
+
+/* ==========================================================================
+   15. TILT EN MÓVIL
+   ========================================================================== */
+@media screen and (max-width: 1024px) {
+  .ig-post,
+  .captcha-card {
+    transform: none;
+    transition: transform 0.05s linear;
+  }
+}
+/* ==========================================================================
+   SELECTOR DE IDIOMA - RESPONSIVE
+   ========================================================================== */
+@media screen and (max-width: 768px) {
+  .lang-selector {
+    margin-left: 12px;
+    font-size: 12px;
+  }
+  .lang-btn {
+    padding: 2px 4px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .lang-selector {
+    margin-left: 8px;
+    font-size: 11px;
+    gap: 4px;
+  }
+  .lang-btn {
+    padding: 2px 3px;
+  }
+}
+
+/* ==========================================================================
+   NUEVO: OCULTAR BOTONES EN MÓVIL Y BANDERA CLICKEABLE
+   ========================================================================== */
+@media screen and (max-width: 768px) {
+  .lang-btn,
+  .lang-divider {
+    display: none;
+  }
+  .lang-flag {
+    cursor: pointer;
+    padding: 4px;
+    font-size: 18px;
+  }
+}
+
+/* ==========================================================================
+   BLOQUE DE SERVICIOS EN MÓVIL (fuera de la card)
+   ========================================================================== */
+.contact-services-mobile {
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto 16px auto;
+  padding: 0 10px;
+}
+
+.contact-services-mobile .contact-services {
+  border-bottom: 1px solid rgba(59,130,246,0.15);
+  padding-bottom: 12px;
+  margin-bottom: 0;
+}
+
+.contact-services-mobile .contact-service-item {
+  margin-bottom: 4px;
+}
+
+.contact-services-mobile .contact-service-item:last-child {
+  margin-bottom: 0;
+}

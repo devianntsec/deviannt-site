@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Annais Molina Fuentes",
+  "alternateName": ["devianntsec", "deviannt"],
+  "jobTitle": "Offensive Cybersecurity Engineer",
+  "description": "Offensive security researcher specializing in vulnerability research, reverse engineering, and exploit development. Author of CVE-2025-55182 (React Server Components RCE, CVSS 10.0) and CVE-2024-51324 (BYOVD kernel primitives).",
+  "url": "https://deviannt.com",
+  "email": "me@deviannt.com",
+  "image": "https://deviannt.com/assets/images/instagram-pfp.png",
+  "sameAs": [
+    "https://github.com/devianntsec",
+    "https://www.linkedin.com/in/annais-molina-fuentes/",
+    "https://blog.deviannt.com",
+    "https://links.deviannt.com",
+    "https://instagram.com/devianntsec",
+    "https://hackerone.com/devianntsec",
+    "https://bugcrowd.com/devianntsec",
+    "https://app.yeswehack.com/hunters/devianntsec",
+    "https://twitter.com/devianntsec",
+    "https://t.me/devianntsec"
+  ],
+  "knowsAbout": [
+    "Reverse Engineering",
+    "Exploit Development",
+    "Vulnerability Research",
+    "CVE Analysis",
+    "React Server Components Security",
+    "BYOVD",
+    "Windows Kernel Security",
+    "Linux Privilege Escalation",
+    "Heap Exploitation",
+    "Patch Diffing",
+    "Prototype Pollution"
+  ],
+  "knowsLanguage": ["es", "en"],
+  "alumniOf": {
+    "@type": "Organization",
+    "name": "UCAM - Campus Internacional de Ciberseguridad"
+  },
+  "hasCredential": {
+    "@type": "EducationalOccupationalCredential",
+    "name": "Máster en Ciberseguridad",
+    "credentialCategory": "degree",
+    "recognizedBy": {
+      "@type": "Organization",
+      "name": "UCAM Universidad Católica de Murcia"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://deviannt.com"
+  }
+}
+</script>
+  <meta charset="UTF-8" />
+  <!-- <base href="/"> asegura que las rutas relativas (css/, js/, assets/)
+       resuelvan siempre contra la raíz, aunque este mismo archivo se sirva
+       también dentro de /en/ o /es/ (ver nota de build más abajo). -->
+  <base href="/">
+
+  <link rel="preload" href="assets/fonts/AzeretMono/AzeretMono-VariableFont_wght.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/Inter/Inter-VariableFont_opsz,wght.woff2" as="font" type="font/woff2" crossorigin>
+
+  <link rel="canonical" href="https://deviannt.com/es/">
+  <link rel="alternate" type="text/plain" href="https://deviannt.com/llm.txt">
+  <link rel="alternate" hreflang="en" href="https://deviannt.com/en/">
+  <link rel="alternate" hreflang="es" href="https://deviannt.com/es/">
+  <link rel="alternate" hreflang="x-default" href="https://deviannt.com/">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>deviannt — Annais Molina Fuentes</title>
+
+  <!-- RRSS -->
+  <link rel="me" href="https://blog.deviannt.com">
+  <link rel="me" href="https://github.com/devianntsec">
+  <link rel="me" href="https://www.linkedin.com/in/annais-molina-fuentes/">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="favicon-deviannt.svg">
+  <link rel="shortcut icon" href="favicon-deviannt.svg">
+
+  <!-- CSS — el ?v= ya NO se calcula en cada request (no hay PHP). Este
+       número lo actualiza el script build/cache-bust.js en cada deploy
+       (ver guía de migración). Mientras tanto puedes subirlo a mano cada
+       vez que cambies un CSS/JS. -->
+  <link rel="stylesheet" href="css/fonts.css?v=1">
+  <link rel="stylesheet" href="css/main.css?v=1">
+  <link rel="stylesheet" href="css/components.css?v=1">
+  <link rel="stylesheet" href="css/animations.css?v=1">
+  <link rel="stylesheet" href="css/responsive.css?v=1">
+  <link rel="stylesheet" href="css/blog-feed.css?v=1">
+
+  <meta name="description" content="Annais Molina Fuentes (devianntsec) — investigadora de seguridad ofensiva. CVE-2025-55182 (CVSS 10.0), investigación de kernel BYOVD, exploit development.">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://deviannt.com/es/">
+  <meta property="og:title" content="deviannt — Annais Molina Fuentes">
+  <meta property="og:description" content="Annais Molina Fuentes (devianntsec) — investigadora de seguridad ofensiva. CVE-2025-55182 (CVSS 10.0), investigación de kernel BYOVD, exploit development.">
+  <meta property="og:image" content="https://deviannt.com/assets/images/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="es_ES">
+  <meta property="og:site_name" content="deviannt">
+
+  <!-- Twitter / X -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@devianntsec">
+  <meta name="twitter:creator" content="@devianntsec">
+  <meta name="twitter:title" content="deviannt — Annais Molina Fuentes">
+  <meta name="twitter:description" content="Annais Molina Fuentes (devianntsec) — investigadora de seguridad ofensiva. CVE-2025-55182 (CVSS 10.0), investigación de kernel BYOVD, exploit development.">
+  <meta name="twitter:image" content="https://deviannt.com/assets/images/og-image.png">
+</head>
+
+<body>
+  <!-- NAVBAR -->
+  <nav>
+    <div class="navbar" id="navbar">
+      <span class="selector" id="selector"></span>
+      <a href="#" class="active" data-title="deviannt" data-i18n="navbar.about" aria-current="page">about me</a>
+      <a href="#" data-title="projects" data-i18n="navbar.projects">projects</a>
+      <a href="#" data-title="blog" data-i18n="navbar.blog">blog</a>
+      <a href="#" data-title="contact" data-i18n="navbar.contact">contact</a>
+      <div class="lang-selector">
+        <button data-lang="en" class="lang-btn active">EN</button>
+        <span class="lang-divider">|</span>
+        <button data-lang="es" class="lang-btn">ES</button>
+        <span class="lang-flag" id="lang-flag" role="button" tabindex="0" aria-label="Switch language">🇬🇧</span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- MAIN LAYOUT -->
+  <div class="layout">
+    <!-- LEFT -->
+    <div class="layout-left">
+      <div class="ig-post">
+        <div class="ig-post__header">
+          <div class="ig-post__user">
+            <div class="ig-post__avatar"></div>
+            <div class="ig-post__meta">
+              <span class="ig-post__username">devianntsec</span>
+              <span class="ig-post__location">Santiago, Chile</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="ig-post__image-wrapper">
+          <div class="ig-post__image"></div>
+          <div class="face-bounding-box" aria-hidden="true">
+            <div class="face-bounding-box__label">Annais Molina</div>
+          </div>
+        </div>
+
+        <div class="ig-post__actions">
+          <div class="ig-post__actions-left">
+            <div class="ig-post__icon-container">
+              <img src="assets/icons/like.svg" alt="like">
+            </div>
+            <div class="ig-post__icon-container">
+              <img src="assets/icons/comment.svg" alt="comment">
+            </div>
+            <div class="ig-post__icon-container">
+              <img src="assets/icons/share.svg" alt="share">
+            </div>
+          </div>
+          <div class="ig-post__actions-right">
+            <div class="ig-post__icon-container">
+              <img src="assets/icons/save.svg" alt="save">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CAPTCHA -->
+      <div class="projects-captcha" id="captcha-container">
+        <div class="captcha-card">
+          <div class="captcha-tilt-wrapper">
+            <div class="captcha-header">
+              <span class="captcha-subtitle" data-i18n="captcha.subtitle">Select one project to inspect</span>
+              <span class="captcha-title" data-i18n="captcha.title">VERIFY PROJECT</span>
+              <span class="captcha-hint" id="captcha-hint" role="status" data-i18n="captcha.hint">psst — not a real captcha, just pick a project</span>
+            </div>
+
+            <div class="captcha-grid">
+              <div class="captcha-cell"></div>
+              <div class="captcha-cell"></div>
+              <div class="captcha-cell"></div>
+              <div class="captcha-cell"></div>
+              <div class="captcha-cell"></div>
+              <div class="captcha-cell"></div>
+              <div class="captcha-cell"></div>
+              <div class="captcha-cell"></div>
+              <div class="captcha-cell"></div>
+            </div>
+
+            <div class="captcha-footer">
+              <div class="captcha-footer-icons">
+                <div class="captcha-footer-icon-container">
+                  <img src="assets/icons/refresh.svg" alt="refresh">
+                </div>
+                <div class="captcha-footer-icon-container">
+                  <img src="assets/icons/headphones.svg" alt="audio">
+                </div>
+                <div class="captcha-footer-icon-container">
+                  <img src="assets/icons/info.svg" alt="info">
+                </div>
+              </div>
+              <button class="captcha-verify" data-i18n="captcha.verify">VERIFY</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT -->
+    <div class="layout-right">
+      <div class="content-stack">
+        <div class="content-stack-inner">
+          <h1 class="title-select">
+            <span>DEVIANNT</span>
+            <i class="line left"></i>
+            <i class="line right"></i>
+            <i class="dot-left"></i>
+            <i class="dot-right"></i>
+          </h1>
+
+          <p class="subtitle">
+            <span class="typed-text"></span><span class="cursor"></span>
+          </p>
+
+          <p class="description">
+            I'm <span class="name">Annais Molina Fuentes</span>, an Offensive Cybersecurity Engineer
+            specialized in uncovering hidden vectors and hardening digital infrastructure.
+          </p>
+
+          <p class="description description--indented" data-i18n="indented.about.services">
+            available for: <span class="highlight">talks</span> · <span class="highlight">consulting</span> · <span class="highlight">mentoring</span>
+          </p>
+
+        </div>
+      </div>
+
+      <!-- SOCIAL CARD -->
+      <div class="social-wrapper no-transition position-about">
+        <div class="social-card">
+          <div class="social-card__inner">
+            <div class="social-card__label" data-i18n="social.label">social media</div>
+            <div class="social-card__content">
+              <a href="https://www.linkedin.com/in/annais-molina-fuentes/" target="_blank" rel="noopener noreferrer">
+                <img src="assets/icons/linkedin-circle.svg" alt="LinkedIn" class="social-icon">
+              </a>
+              <a href="https://github.com/devianntsec" target="_blank" rel="noopener noreferrer">
+                <img src="assets/icons/github-circle.svg" alt="GitHub" class="social-icon">
+              </a>
+              <span class="social-card__handle">@devianntsec</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BACKGROUND ELEMENTS -->
+  <canvas id="bg-wave"></canvas>
+  <canvas id="bg-wave-tl"></canvas>
+  <svg id="connector-layer">
+    <line id="connection-path"></line>
+  </svg>
+
+  <!-- SCRIPTS -->
+  <script>
+    window.DEFAULT_LANG = 'es';
+    // true: esta URL es explícitamente /es/, gana sobre cualquier idioma guardado.
+    // Cloudflare Worker no llegó a interceptar). i18n.js sigue siendo libre
+    // de usar localStorage/navigator.language para decidir el idioma real.
+    window.LANG_FORCED_BY_URL = true;
+  </script>
+
+  <script src="js/core.js?v=1" defer></script>
+  <script src="js/i18n.js?v=1" defer></script>
+  <script src="js/titles.js?v=1" defer></script>
+  <script src="js/text-fit.js?v=1" defer></script>
+  <script src="js/waves.js?v=1" defer></script>
+  <script src="js/tilt-effect.js?v=1" defer></script>
+  <script src="js/captcha.js?v=1" defer></script>
+  <script src="js/navigation.js?v=1" defer></script>
+  <script src="js/connection.js?v=1" defer></script>
+  <script src="js/scroll-navigation.js?v=1" defer></script>
+  <script src="js/blog-feed.js?v=1" defer></script>
+  <script src="js/photos-config.js?v=1" defer></script>
+  <script src="js/main.js?v=1" defer></script>
+</body>
+</html>

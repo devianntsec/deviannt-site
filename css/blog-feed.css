@@ -1,0 +1,521 @@
+/* ==========================================================================
+   BLOG FEED - Sección blog con posts desde blog.deviannt.com
+   ========================================================================== */
+
+/* ==========================================================================
+   BLOG 2-COLUMN LAYOUT (desktop)
+   ========================================================================== */
+
+.blog-two-col {
+  display: flex;
+  flex-direction: row;
+  gap: 48px;
+  align-items: flex-start;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 0 48px;
+  box-sizing: border-box;
+}
+
+.blog-left-col {
+  width: 50%;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  position: relative;
+}
+
+.blog-right-col {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* ==========================================================================
+   SOCIAL CARD ANCHOR EN BLOG
+   ========================================================================== */
+
+.blog-social-anchor {
+  position: relative;
+  height: 110px;
+  margin-top: 32px;
+  width: 100%;
+}
+
+.layout-right.is-blog .social-wrapper {
+  position: absolute !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  top: auto !important;
+  right: auto !important;
+  width: 250px !important;
+  height: 80px !important;
+  animation: float-natural 6s ease-in-out infinite !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+}
+
+/* ==========================================================================
+   BLOG FEED CONTAINER
+   ========================================================================== */
+
+.blog-feed-container {
+  width: 100%;
+  max-width: 100%;
+  margin-top: 0;
+}
+
+.blog-feed-label {
+  display: inline-block;
+  padding: 4px 12px;
+  background: var(--primary-color);
+  color: #fff;
+  font-family: "Azeret Mono", monospace;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+.blog-posts-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* ==========================================================================
+   POST CARD
+   ========================================================================== */
+.blog-post-card {
+  position: relative;
+  display: block;
+  background: var(--bg-card);
+  border: 1px solid var(--bg-subtle);
+  border-left: 3px solid var(--primary-color);
+  padding: 16px 18px;
+  text-decoration: none;
+  transition: background 0.2s ease, border-color 0.2s ease;
+  cursor: pointer;
+  border-radius: 0;
+}
+
+.blog-post-card:hover {
+  background: var(--bg-subtle);
+  border-color: var(--primary-color);
+}
+
+.blog-post-card--featured {
+  border-left-color: var(--accent-blue);
+}
+
+.blog-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.blog-card-cat {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--primary-color);
+  background: rgba(59, 130, 246, 0.1);
+  padding: 3px 8px;
+  border-radius: 2px;
+}
+
+.blog-card-date {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 10px;
+  font-weight: 200;
+  color: var(--text-faint);
+  letter-spacing: -0.02em;
+}
+
+.blog-card-title {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-primary);
+  letter-spacing: -0.04em;
+  line-height: 1.4;
+  margin-bottom: 6px;
+}
+
+.blog-post-card:hover .blog-card-title {
+  color: #fff;
+}
+
+.blog-card-excerpt {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 11px;
+  font-weight: 200;
+  color: var(--text-muted);
+  letter-spacing: -0.02em;
+  line-height: 1.6;
+}
+
+.blog-card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: 10px;
+}
+
+.blog-card-tag {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: var(--accent-blue);
+  background: rgba(96, 165, 250, 0.07);
+  padding: 2px 7px;
+  border-radius: 2px;
+}
+
+.blog-card-arrow {
+  position: absolute;
+  right: 14px;
+  bottom: 14px;
+  font-size: 13px;
+  color: var(--primary-color);
+  opacity: 0;
+  transform: translateX(-4px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.blog-post-card:hover .blog-card-arrow {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* ==========================================================================
+   FOOTER DEL FEED
+   ========================================================================== */
+.blog-feed-footer {
+  margin-top: 4px;
+}
+
+.blog-feed-divider {
+  height: 1px;
+  background: var(--bg-subtle);
+  margin-bottom: 12px;
+}
+
+.blog-view-all {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 11px;
+  font-weight: 400;
+  color: var(--accent-blue);
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  transition: color 0.2s ease;
+  padding: 4px 0;
+}
+
+.blog-view-all:hover {
+  color: #93C5FD;
+}
+
+/* ==========================================================================
+   CTA + LIVE INDICATOR
+   ========================================================================== */
+.blog-cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+  padding: 10px 20px;
+  border: none;
+  background: linear-gradient(135deg, #2563EB 0%, #3B82F6 100%);
+  color: #fff;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  cursor: pointer;
+  border-radius: 2px;
+  text-decoration: none;
+  transition: all 0.2s cubic-bezier(0.22, 1, 0.36, 1);
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+}
+
+.blog-cta-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(59, 130, 246, 0.4);
+  background: linear-gradient(135deg, #3B82F6 0%, #60A5FA 100%);
+}
+
+.blog-live-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 11px;
+  font-weight: 200;
+  color: var(--text-muted);
+  letter-spacing: -0.02em;
+  margin-top: 8px;
+}
+
+.blog-live-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--primary-color);
+  flex-shrink: 0;
+  animation: blog-pulse 2s ease-in-out infinite;
+}
+
+@keyframes blog-pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.3; }
+}
+
+.blog-live-link {
+  color: var(--accent-blue);
+  text-decoration: none;
+}
+
+.blog-live-link:hover {
+  text-decoration: underline;
+}
+
+/* ==========================================================================
+   SKELETON LOADER
+   ========================================================================== */
+.blog-feed-skeleton {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.blog-skeleton-card {
+  background: var(--bg-card);
+  border: 1px solid var(--bg-subtle);
+  border-left: 3px solid var(--bg-subtle);
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.skeleton-line {
+  height: 10px;
+  background: linear-gradient(90deg, var(--bg-subtle) 25%, var(--bg-deep) 50%, var(--bg-subtle) 75%);
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.5s infinite;
+  border-radius: 2px;
+}
+
+.skeleton-line.short  { width: 30%; }
+.skeleton-line.medium { width: 60%; }
+.skeleton-line.long   { width: 90%; height: 14px; }
+
+@keyframes skeleton-shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ==========================================================================
+   FALLBACK
+   ========================================================================== */
+.blog-feed-fallback {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.blog-fallback-text {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 13px;
+  font-weight: 200;
+  color: var(--text-muted);
+  letter-spacing: -0.03em;
+  line-height: 1.6;
+}
+
+.blog-fallback-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--accent-blue);
+  text-decoration: none;
+  padding: 8px 16px;
+  border: 1px solid var(--primary-color);
+  transition: all 0.2s ease;
+  width: fit-content;
+}
+
+.blog-fallback-btn:hover {
+  background: rgba(59, 130, 246, 0.08);
+  color: #93C5FD;
+}
+
+/* ==========================================================================
+   OVERRIDES de is-blog en content-stack (desktop)
+   ========================================================================== */
+.layout-right.is-blog .content-stack-inner {
+  align-items: flex-start !important;
+  width: 100% !important;
+}
+
+.layout-right.is-blog .description--indented {
+  display: none !important;
+}
+
+.layout-right.is-blog .title-select {
+  justify-content: flex-start !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+.layout-right.is-blog .subtitle {
+  justify-content: flex-start !important;
+  text-align: left !important;
+}
+
+.layout-right.is-blog .description {
+  text-align: left !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+/* ==========================================================================
+   RESPONSIVE BLOG FEED — móvil (≤768px)
+   ========================================================================== */
+@media (max-width: 768px) {
+  .blog-two-col {
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .blog-left-col {
+    width: 100%;
+    text-align: center;
+    padding: 0;
+  }
+
+  .blog-social-anchor {
+    display: none;
+  }
+
+  .blog-feed-container {
+    max-width: 100%;
+    padding: 0 4px;
+  }
+
+  .blog-card-title {
+    font-size: 12px;
+  }
+
+  .blog-card-excerpt {
+    font-size: 10px;
+  }
+
+  .blog-cta-btn {
+    width: 100%;
+    justify-content: center;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+
+  .layout-right.is-blog .social-wrapper {
+    position: fixed !important;
+    bottom: 20px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    top: auto !important;
+    right: auto !important;
+  }
+
+  /* Centrado de texto en móvil - subtítulo en una línea */
+  .layout-right.is-blog .title-select {
+    justify-content: center !important;
+    text-align: center !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    white-space: nowrap;
+  }
+
+  .layout-right.is-blog .subtitle {
+    display: block !important;
+    text-align: center !important;
+    width: 100% !important;
+    font-size: 13px !important;        /* Reducido para que quepa en una línea */
+    white-space: nowrap !important;    /* Fuerza una sola línea */
+    overflow-x: visible !important;    /* Elimina el scroll horizontal */
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+
+  /* Si en dispositivos muy pequeños aún no cabe, reducimos a 12px */
+  @media (max-width: 360px) {
+    .layout-right.is-blog .subtitle {
+      font-size: 12px !important;
+    }
+  }
+
+  .layout-right.is-blog .description {
+    text-align: center !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+
+  .blog-live-indicator {
+    justify-content: center !important;
+  }
+}
+
+/* ==========================================================================
+   TABLET (769px - 1024px)
+   ========================================================================== */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .blog-two-col {
+    gap: 32px;
+  }
+
+  .blog-left-col {
+    width: 40%;
+  }
+}
+
+/* ==========================================================================
+   ANIMACIÓN DE DESLIZAMIENTO PARA TEXTO DEL BLOG (desde about me)
+   ========================================================================== */
+.blog-slide-in {
+  animation: slideInFromLeft 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes slideInFromLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.blog-left-col .title-select,
+.blog-left-col .subtitle,
+.blog-left-col .description,
+.blog-left-col .blog-cta-btn,
+.blog-left-col .blog-live-indicator {
+  opacity: 1;
+}

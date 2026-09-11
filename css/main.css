@@ -1,0 +1,182 @@
+/* ==========================================================================
+   MAIN.CSS - Estilos globales del portfolio DeviAnnt
+   Versión DARK THEME
+   ========================================================================== */
+
+/* ==========================================================================
+   1. VARIABLES GLOBALES
+   ========================================================================== */
+:root {
+  /* Paleta dark */
+  --bg-base:        #000000;
+  --bg-deep:        #0B1220;
+  --bg-card:        #0F1B2E;
+  --bg-subtle:      #16243A;
+
+  /* Branding */
+  --primary-color:   #3B82F6;
+  --secondary-color: #3B82F6;
+  --accent-blue:     #60A5FA;
+  --accent-dark:     #2563EB;
+
+  /* Texto */
+  --text-primary:   #E2E8F0;
+  --text-muted:     #94A3B8;
+  --text-faint:     #475569;
+
+  /* Transiciones */
+  --transition-time:   0.35s;
+  --transition-bezier: cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* Sombras */
+  --shadow-base:   0 20px 40px rgba(0, 0, 0, 0.6);
+  --shadow-light:  0 4px 12px rgba(0, 0, 0, 0.4);
+  --shadow-medium: 0 8px 18px rgba(0, 0, 0, 0.5);
+  --shadow-glow:   0 0 20px rgba(59, 130, 246, 0.15);
+
+  /* ==========================================================================
+     ANCLAJE UNIFICADO DEL TÍTULO (fix responsive)
+     Todas las secciones (deviannt / projects / blog / contact) usan estos
+     mismos valores para que el título SIEMPRE quede en la misma coordenada Y
+     relativa al lienzo, tanto en desktop como en mobile. Las transiciones
+     entre secciones pasan a ser traslación pura, nunca salto vertical.
+     ========================================================================== */
+  --nav-height:       96px;   /* debe coincidir con .layout { height: calc(100vh - 96px) } */
+  --title-top:        140px;  /* offset fijo del título respecto al top de .layout-right */
+  --title-top-mobile: 50px;   /* mismo offset, ajustado para viewport móvil */
+}
+
+/* ==========================================================================
+   2. RESET Y ESTILOS BASE
+   ========================================================================== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  margin: 0;
+  font-family: "Azeret Mono", "Courier New", monospace;
+  background: var(--bg-base);
+  overflow-x: hidden;
+  line-height: 1.5;
+  color: var(--text-primary);
+}
+
+::selection {
+  background-color: rgba(59, 130, 246, 0.35);
+  color: #ffffff;
+}
+
+::-moz-selection {
+  background-color: rgba(59, 130, 246, 0.35);
+  color: #ffffff;
+}
+
+/* ==========================================================================
+   3. LAYERING
+   ========================================================================== */
+nav,
+.layout,
+#connector-layer {
+  position: relative;
+  z-index: 1;
+}
+
+/* ==========================================================================
+   4. RESPONSIVE - Media Queries Globales
+   ========================================================================== */
+@media (max-width: 1000px) {
+  .subtitle { font-size: 20px; }
+  .description { width: 100%; margin-left: 0; margin-right: 0; }
+}
+
+@media (max-width: 800px) {
+  .subtitle { font-size: 18px; }
+  .layout-left { display: flex; justify-content: center; }
+  .ig-post { width: 80%; height: 65%; }
+}
+
+@media (max-width: 480px) {
+  .subtitle { font-size: 16px; }
+  .ig-post { width: 90%; height: auto; }
+}
+
+/* ==========================================================================
+   5. UTILIDADES
+   ========================================================================== */
+.hidden    { display: none !important; }
+.visible   { display: block !important; }
+.invisible { visibility: hidden !important; }
+
+.fade-in { animation: fadeIn 0.5s var(--transition-bezier) forwards; }
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.slide-in-left { animation: slideInLeft 0.6s var(--transition-bezier) forwards; }
+
+@keyframes slideInLeft {
+  from { opacity: 0; transform: translateX(-30px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+.slide-in-right { animation: slideInRight 0.6s var(--transition-bezier) forwards; }
+
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(30px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+/* ==========================================================================
+   6. PROJECTS LINKS - Estados especiales
+   ========================================================================== */
+.description--indented[style*="display: none"] {
+  display: none !important;
+}
+
+.description--indented.projects-links-mode[style*="display: none"] {
+  display: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  min-height: 0 !important;
+  height: 0 !important;
+  overflow: hidden !important;
+}
+
+.layout-right.is-projects .content-stack-inner {
+  min-height: auto;
+}
+
+.description--indented {
+  transition: all 0.3s var(--transition-bezier);
+}
+
+/* ==========================================================================
+   7. SCROLL PERSONALIZADO
+   ========================================================================== */
+::-webkit-scrollbar       { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: var(--bg-deep); }
+::-webkit-scrollbar-thumb { background: var(--primary-color); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent-blue); }
+
+/* ==========================================================================
+   8. FOCUS VISIBLE - Accesibilidad
+   ========================================================================== */
+:focus-visible {
+  outline: 2px solid var(--accent-blue);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* ==========================================================================
+   9. IMPRESIÓN
+   ========================================================================== */
+@media print {
+  canvas, #connector-layer, #bg-wave, #bg-wave-tl { display: none !important; }
+  body { background: white; color: black; }
+  a    { text-decoration: underline; color: black; }
+}

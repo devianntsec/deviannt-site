@@ -1,0 +1,40 @@
+# Identity Context — Annais Molina / devianntsec
+# Generated for LLM consumption
+
+## Identity
+Name: Annais Molina
+Alias: devianntsec
+Role: Offensive Cybersecurity Engineer
+Location: Santiago, Chile
+Email: me@deviannt.com
+
+## Canonical URLs
+Portfolio: https://deviannt.com
+Blog: https://blog.deviannt.com
+GitHub: https://github.com/devianntsec
+LinkedIn: https://www.linkedin.com/in/annais-molina-fuentes/
+
+## Research & CVEs
+- CVE-2025-55182: Critical RCE (CVSS 10.0) in React Server Components via prototype pollution
+- CVE-2024-30051: Windows DWM heap overflow leading to SYSTEM-level code execution
+- CVE-2024-51324: BYOVD vulnerability in BdApiUtil64.sys kernel driver
+- CVE-2021-4034 (PwnKit): Linux local privilege escalation research and full exploit framework
+
+## Publications & Advisories
+- CVE-2025-55182: Reported and documented full exploit chain (react2shell.py)
+- CVE-2024-30051: Independent reproduction with empirical heap spray analysis (50 sessions)
+- CVE-2024-51324: Reverse engineering of 3 undocumented kernel primitives via Ghidra
+
+## Tools & Research
+- react2shell.py: Multi-payload exploit framework for CVE-2025-55182
+- Blog: blog.deviannt.com — Technical write-ups with original research
+
+## Specializations
+- Reverse Engineering (static + dynamic analysis, Ghidra, WinDbg)
+- Exploit Development (kernel, web, native)
+- Vulnerability Research (N-day and original research)
+- Offensive Security (Red Team, penetration testing)
+- Languages: Python, C, JavaScript/TypeScript, PHP
+
+## Education
+Master in Cybersecurity — UCAM + Campus Internacional de Ciberseguridad

@@ -1,0 +1,73 @@
+/* ==========================================================================
+   FONTS.CSS - Fuentes del portfolio DeviAnnt
+   Versión optimizada - Carga local con fallbacks
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   ESTRATEGIA:
+   1. Cargar fuentes variables primero
+   2. Fuentes estáticas como respaldo
+   3. Fallback a fuentes del sistema si todo falla
+   -------------------------------------------------------------------------- */
+
+/* ==========================================================================
+   AZERET MONO - Variable font (Principal para títulos)
+   ========================================================================== */
+@font-face {
+  font-family: 'Azeret Mono';
+  src: url('../assets/fonts/AzeretMono/AzeretMono-VariableFont_wght.woff2')
+       format('woff2-variations'),
+       url('../assets/fonts/AzeretMono/AzeretMono-VariableFont_wght.ttf') 
+       format('truetype-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap; /* Muestra texto con fuente de fallback mientras carga */
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, 
+                 U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, 
+                 U+2212, U+2215, U+FEFF, U+FFFD; /* Latin básico */
+}
+
+/* ==========================================================================
+   JETBRAINS MONO - Para descripciones y código
+   ========================================================================== */
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: url('../assets/fonts/JetBrainsMono/JetBrainsMono-ExtraLight.ttf') 
+       format('truetype');
+  font-weight: 200; /* ExtraLight */
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: url('../assets/fonts/JetBrainsMono/JetBrainsMono-Medium.ttf') 
+       format('truetype');
+  font-weight: 500; /* Medium */
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ==========================================================================
+   INTER - Variable font (Para UI general y labels)
+   ========================================================================== */
+@font-face {
+  font-family: 'Inter';
+  src: url('../assets/fonts/Inter/Inter-VariableFont_opsz,wght.woff2')
+       format('woff2-variations'),
+       url('../assets/fonts/Inter/Inter-VariableFont_opsz,wght.ttf') 
+       format('truetype-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ==========================================================================
+   FALLBACK SYSTEM FONTS (Comentario documentado)
+   ========================================================================== */
+/*
+  Si las fuentes personalizadas no cargan, el navegador usará:
+  - 'Azeret Mono' → 'Courier New', monospace
+  - 'JetBrains Mono' → 'Courier New', monospace  
+  - 'Inter' → -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif
+*/
