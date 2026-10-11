@@ -16,12 +16,15 @@ const captcha = {
     const hint = $("#captcha-hint");
     if (!hint) return;
 
+    // `container` no estaba definido (ReferenceError al ejecutar initHint), por lo
+    // que el hint nunca se retiraba al interactuar. Ahora se resuelve aquí.
+    const container = $("#captcha-container");
     const STORAGE_KEY = "deviannt_captcha_hint_seen";
-    if (localStorage.getItem(STORAGE_KEY)) return;
+    if (window.safeStorage?.get(STORAGE_KEY)) return;
 
     const dismiss = () => {
       hint.classList.remove("visible");
-      localStorage.setItem(STORAGE_KEY, "1");
+      window.safeStorage?.set(STORAGE_KEY, "1");
     };
 
     // Pequeño delay para que no compita con la animación de entrada del card
@@ -154,6 +157,12 @@ const captcha = {
         setTimeout(() => verifyButton.style.animation = "", 500); 
         return; 
       }
+      // VERIFY ya no es un botón muerto: confirma la selección (anunciada a
+      // lectores de pantalla por el toast, que es role=alert/aria-live) y lleva el
+      // foco a los enlaces del proyecto elegido.
+      if (window.toast && window.i18n) window.toast.show('✓ ' + window.i18n.getText('captcha.verified'));
+      const firstProjectLink = $(".projects-links-wrapper .project-link");
+      if (firstProjectLink) firstProjectLink.focus({ preventScroll: true });
       verifyButton.style.transform = "translateY(0px) scale(0.95)";
       verifyButton.style.backgroundColor = "#2d6bb0";
       setTimeout(() => { 

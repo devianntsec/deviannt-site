@@ -43,7 +43,6 @@ const App = {
       return;
     }
     
-    const ORIGINAL_INDENTED_TEXT = indentedDescriptionEl.textContent;
     const TARGET_HEIGHT = 60;
     
     let currentSelectedIndex = 0;
@@ -57,46 +56,46 @@ const App = {
         titleKey: 'project.react.title',
         descKey: 'project.react.desc',
         type: 'icon',
-        content: 'assets/icons/projects-src/react.svg',
+        content: '/assets/icons/projects-src/react.svg',
         cellText: '2025-55182',
         links: [
-          { textKey: 'project.react.link.github', url: 'https://github.com/devianntsec/CVE-2025-55182', icon: 'assets/icons/github-circle.svg' },
-          { textKey: 'project.react.link.blog', url: 'https://blog.deviannt.com/cve-2025-55182-react2shell-rce-in-react-server-components-via-prototype-pollution/', icon: 'assets/icons/document.svg' },
-          { textKey: 'project.react.link.cve', url: 'https://www.cve.org/CVERecord?id=CVE-2025-55182', icon: 'assets/icons/search.svg' }
+          { textKey: 'project.react.link.github', url: 'https://github.com/devianntsec/CVE-2025-55182', icon: '/assets/icons/github-circle.svg' },
+          { textKey: 'project.react.link.blog', url: 'https://blog.deviannt.com/cve-2025-55182-react2shell-rce-in-react-server-components-via-prototype-pollution/', icon: '/assets/icons/document.svg' },
+          { textKey: 'project.react.link.cve', url: 'https://www.cve.org/CVERecord?id=CVE-2025-55182', icon: '/assets/icons/search.svg' }
         ]
       },
       {
         titleKey: 'project.byovd.title',
         descKey: 'project.byovd.desc',
         type: 'icon',
-        content: 'assets/icons/cve.svg',
+        content: '/assets/icons/cve.svg',
         cellText: '2024-51324',
         links: [
-          { textKey: 'project.byovd.link.github', url: 'https://github.com/devianntsec/CVE-2024-51324', icon: 'assets/icons/github-circle.svg' },
-          { textKey: 'project.byovd.link.blog', url: 'https://blog.deviannt.com/cve-2024-51324-byovd-three-undocumented-kernel-primitives-in-bdapiutil64.sys/', icon: 'assets/icons/document.svg' },
-          { textKey: 'project.byovd.link.cve', url: 'https://www.cve.org/CVERecord?id=CVE-2024-51324', icon: 'assets/icons/search.svg' }
+          { textKey: 'project.byovd.link.github', url: 'https://github.com/devianntsec/CVE-2024-51324', icon: '/assets/icons/github-circle.svg' },
+          { textKey: 'project.byovd.link.blog', url: 'https://blog.deviannt.com/cve-2024-51324-byovd-three-undocumented-kernel-primitives-in-bdapiutil64.sys/', icon: '/assets/icons/document.svg' },
+          { textKey: 'project.byovd.link.cve', url: 'https://www.cve.org/CVERecord?id=CVE-2024-51324', icon: '/assets/icons/search.svg' }
         ]
       },
       {
         titleKey: 'project.dwm.title',
         descKey: 'project.dwm.desc',
         type: 'icon',
-        content: 'assets/icons/cve.svg',
+        content: '/assets/icons/cve.svg',
         cellText: '2024-30051',
         links: [
-          { textKey: 'project.dwm.link.github', url: 'https://github.com/devianntsec/CVE-2024-30051', icon: 'assets/icons/github-circle.svg' },
-          { textKey: 'project.dwm.link.blog', url: 'https://blog.deviannt.com/cve-2024-30051-heap-overflow-in-windows-dwm-from-an-integer-division-bug-to-system/', icon: 'assets/icons/document.svg' },
-          { textKey: 'project.dwm.link.cve', url: 'https://www.cve.org/CVERecord?id=CVE-2024-30051', icon: 'assets/icons/search.svg' }
+          { textKey: 'project.dwm.link.github', url: 'https://github.com/devianntsec/CVE-2024-30051', icon: '/assets/icons/github-circle.svg' },
+          { textKey: 'project.dwm.link.blog', url: 'https://blog.deviannt.com/cve-2024-30051-heap-overflow-in-windows-dwm-from-an-integer-division-bug-to-system/', icon: '/assets/icons/document.svg' },
+          { textKey: 'project.dwm.link.cve', url: 'https://www.cve.org/CVERecord?id=CVE-2024-30051', icon: '/assets/icons/search.svg' }
         ]
       },
       {
         titleKey: 'project.sbo.title',
         descKey: 'project.sbo.desc',
         type: 'icon',
-        content: 'assets/icons/cve.svg',
+        content: '/assets/icons/cve.svg',
         cellText: 'stack-bof',
         links: [
-          { textKey: 'project.sbo.link.github', url: 'https://github.com/devianntsec/Analisis-de-Vulnerabilidad-Stack-Buffer-Overflow', icon: 'assets/icons/github-circle.svg' }
+          { textKey: 'project.sbo.link.github', url: 'https://github.com/devianntsec/Analisis-de-Vulnerabilidad-Stack-Buffer-Overflow', icon: '/assets/icons/github-circle.svg' }
         ]
       }
     ];
@@ -127,7 +126,9 @@ const App = {
     function restoreOriginalIndentedText() {
       if (isUpdating) return;
       isUpdating = true;
-      indentedDescriptionEl.innerHTML = ORIGINAL_INDENTED_TEXT;
+      // Se re-renderiza desde la traducción actual (antes se guardaba el texto del
+      // primer idioma y, tras cambiar EN<->ES, volvía en el idioma equivocado).
+      i18n.setHTML(indentedDescriptionEl, i18n.getText('indented.about.services'));
       indentedDescriptionEl.style.display = 'block';
       indentedDescriptionEl.classList.remove('projects-links-mode');
       indentedDescriptionEl.style.minHeight = indentedDescriptionEl.style.height = indentedDescriptionEl.style.padding = indentedDescriptionEl.style.margin = '';
@@ -162,7 +163,7 @@ const App = {
         linkElement.className = 'project-link';
         
         if (link.icon) {
-          if (link.icon.startsWith('assets/')) {
+          if (link.icon.startsWith('/assets/')) {
             const iconImg = document.createElement('img');
             iconImg.src = link.icon;
             iconImg.alt = link.text;

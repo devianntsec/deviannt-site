@@ -84,8 +84,28 @@ function getTitleConfig(section) {
   return TITLE_CONFIG[section] || TITLE_CONFIG.deviannt;
 }
 
+// Clave de navbar para cada sección (el nombre interno "deviannt" = "about me")
+const SECTION_NAV_KEY = {
+  deviannt: 'navbar.about',
+  projects: 'navbar.projects',
+  blog: 'navbar.blog',
+  contact: 'navbar.contact'
+};
+
+// Mantiene <title> y un live region sincronizados con la sección activa.
+// El contenido de las secciones se pinta con JS dentro del mismo <h1>, así que
+// sin esto un lector de pantalla no se entera de que cambió de sección.
+function announceSection(section) {
+  const base = window.__baseTitle || document.title;
+  const label = i18n.getText(SECTION_NAV_KEY[section] || 'navbar.about');
+  document.title = section === 'deviannt' ? base : `${label} — deviannt`;
+  const announcer = document.getElementById('section-announcer');
+  if (announcer) announcer.textContent = label;
+}
+
 function updateTitle(section) {
   const config = getTitleConfig(section);
+  announceSection(section);
   const titleElement = $('.title-select span');
   const subtitleElement = $('.subtitle .typed-text');
   const descriptionElements = $$('.description');
@@ -132,7 +152,7 @@ function updateTitle(section) {
           const projectData = window.projectSelector?.getCurrentProjectData?.();
           el.textContent = projectData ? projectData.description : i18n.getText('desc.projects');
         } else {
-          el.innerHTML = i18n.getText(config.descriptionKey);
+          i18n.setHTML(el, i18n.getText(config.descriptionKey));
         }
       } else if (index === 1) {
         if (section === "blog") {
@@ -141,7 +161,7 @@ function updateTitle(section) {
           el.style.display = 'block';
           // ─── AQUÍ ESTÁ EL CAMBIO ───
           if (section === "deviannt") {
-            el.innerHTML = i18n.getText('indented.about.services');
+            i18n.setHTML(el, i18n.getText('indented.about.services'));
           }
           // ─────────────────────────
         } else {
@@ -220,7 +240,7 @@ function _ensureBlogTwoColLayout(repositionCard = true) {
   // Live indicator
   const liveIndicator = document.createElement('div');
   liveIndicator.className = 'blog-live-indicator';
-  liveIndicator.innerHTML = i18n.getText('blog.live.indicator');
+  i18n.setHTML(liveIndicator, i18n.getText('blog.live.indicator'));
   leftCol.appendChild(liveIndicator);
 
   // CTA button
@@ -229,7 +249,7 @@ function _ensureBlogTwoColLayout(repositionCard = true) {
   ctaBtn.href = 'https://blog.deviannt.com';
   ctaBtn.target = '_blank';
   ctaBtn.rel = 'noopener noreferrer';
-  ctaBtn.innerHTML = i18n.getText('blog.cta');
+  i18n.setHTML(ctaBtn, i18n.getText('blog.cta'));
   leftCol.appendChild(ctaBtn);
 
   // Anchor para el social card

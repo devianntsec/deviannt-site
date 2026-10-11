@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="{{lang}}">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{t:meta.title}}</title>
+  <meta name="description" content="{{t:meta.description}}">
+
+  <!-- GENERADO por build/build.mjs a partir de build/index.template.html.
+       No editar index.html, en/index.html ni es/index.html a mano. -->
+
+  <link rel="canonical" href="{{canonical}}">
+  <link rel="alternate" type="text/plain" href="https://deviannt.com/llm.txt">
+  <link rel="alternate" hreflang="en" href="https://deviannt.com/en/">
+  <link rel="alternate" hreflang="es" href="https://deviannt.com/es/">
+  <link rel="alternate" hreflang="x-default" href="https://deviannt.com/">
+
+  <!-- Rutas ABSOLUTAS (sin <base>): este mismo HTML se sirve en /, /en/ y /es/ -->
+  <link rel="preload" href="/assets/fonts/AzeretMono/AzeretMono-VariableFont_wght.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/fonts/Inter/Inter-VariableFont_opsz,wght.woff2" as="font" type="font/woff2" crossorigin>
+
+  <!-- RRSS -->
+  <link rel="me" href="https://blog.deviannt.com">
+  <link rel="me" href="https://github.com/devianntsec">
+  <link rel="me" href="https://www.linkedin.com/in/annais-molina-fuentes/">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/favicon-deviannt.svg">
+  <link rel="shortcut icon" href="/favicon-deviannt.svg">
+
+  <!-- CSS — el ?v= es un hash del contenido de cada archivo, calculado en el build -->
+  <link rel="stylesheet" href="{{v:/css/fonts.css}}">
+  <link rel="stylesheet" href="{{v:/css/main.css}}">
+  <link rel="stylesheet" href="{{v:/css/components.css}}">
+  <link rel="stylesheet" href="{{v:/css/animations.css}}">
+  <link rel="stylesheet" href="{{v:/css/responsive.css}}">
+  <link rel="stylesheet" href="{{v:/css/blog-feed.css}}">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="{{ogUrl}}">
+  <meta property="og:title" content="{{t:meta.title}}">
+  <meta property="og:description" content="{{t:meta.description}}">
+  <meta property="og:image" content="https://deviannt.com/assets/images/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="{{t:meta.ogLocale}}">
+  <meta property="og:site_name" content="deviannt">
+
+  <!-- Twitter / X -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@devianntsec">
+  <meta name="twitter:creator" content="@devianntsec">
+  <meta name="twitter:title" content="{{t:meta.title}}">
+  <meta name="twitter:description" content="{{t:meta.description}}">
+  <meta name="twitter:image" content="https://deviannt.com/assets/images/og-image.png">
+
+  <!-- Datos estructurados (idéntico en las 3 páginas; ver PERSON en build.mjs) -->
+  <script type="application/ld+json">
+{{jsonld}}
+  </script>
+</head>
+
+<body>
+  <!-- NAVBAR -->
+  <nav>
+    <div class="navbar" id="navbar">
+      <span class="selector" id="selector"></span>
+      <a href="#about" class="active" data-title="deviannt" data-i18n="navbar.about" aria-current="page">{{t:navbar.about}}</a>
+      <a href="#projects" data-title="projects" data-i18n="navbar.projects">{{t:navbar.projects}}</a>
+      <a href="#blog" data-title="blog" data-i18n="navbar.blog">{{t:navbar.blog}}</a>
+      <a href="#contact" data-title="contact" data-i18n="navbar.contact">{{t:navbar.contact}}</a>
+      <div class="lang-selector">
+        <button type="button" data-lang="en" class="lang-btn{{enActive}}">EN</button>
+        <span class="lang-divider">|</span>
+        <button type="button" data-lang="es" class="lang-btn{{esActive}}">ES</button>
+        <span class="lang-flag" id="lang-flag" role="button" tabindex="0" aria-label="{{flagLabel}}">{{flag}}</span>
+      </div>
+    </div>
+  </nav>
+  <div id="section-announcer" class="sr-only" role="status" aria-live="polite"></div>
+  <noscript>
+    <div class="noscript-note">{{noscript}}</div>
+  </noscript>
+
+  <!-- MAIN LAYOUT -->
+  <div class="layout">
+    <!-- LEFT -->
+    <div class="layout-left">
+      <div class="ig-post">
+        <div class="ig-post__header">
+          <div class="ig-post__user">
+            <div class="ig-post__avatar"></div>
+            <div class="ig-post__meta">
+              <span class="ig-post__username">devianntsec</span>
+              <span class="ig-post__location">Santiago, Chile</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="ig-post__image-wrapper">
+          <div class="ig-post__image"></div>
+          <div class="face-bounding-box" aria-hidden="true">
+            <div class="face-bounding-box__label">Annais Molina</div>
+          </div>
+        </div>
+
+        <div class="ig-post__actions">
+          <div class="ig-post__actions-left">
+            <div class="ig-post__icon-container">
+              <img src="/assets/icons/like.svg" alt="" aria-hidden="true">
+            </div>
+            <div class="ig-post__icon-container">
+              <img src="/assets/icons/comment.svg" alt="" aria-hidden="true">
+            </div>
+            <div class="ig-post__icon-container">
+              <img src="/assets/icons/share.svg" alt="" aria-hidden="true">
+            </div>
+          </div>
+          <div class="ig-post__actions-right">
+            <div class="ig-post__icon-container">
+              <img src="/assets/icons/save.svg" alt="" aria-hidden="true">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CAPTCHA -->
+      <div class="projects-captcha" id="captcha-container">
+        <div class="captcha-card">
+          <div class="captcha-tilt-wrapper">
+            <div class="captcha-header">
+              <span class="captcha-subtitle" data-i18n="captcha.subtitle">{{t:captcha.subtitle}}</span>
+              <span class="captcha-title" data-i18n="captcha.title">{{t:captcha.title}}</span>
+              <span class="captcha-hint" id="captcha-hint" role="status" data-i18n="captcha.hint">{{t:captcha.hint}}</span>
+            </div>
+
+            <div class="captcha-grid">
+              <div class="captcha-cell"></div>
+              <div class="captcha-cell"></div>
+              <div class="captcha-cell"></div>
+              <div class="captcha-cell"></div>
+              <div class="captcha-cell"></div>
+              <div class="captcha-cell"></div>
+              <div class="captcha-cell"></div>
+              <div class="captcha-cell"></div>
+              <div class="captcha-cell"></div>
+            </div>
+
+            <div class="captcha-footer">
+              <div class="captcha-footer-icons">
+                <div class="captcha-footer-icon-container">
+                  <img src="/assets/icons/refresh.svg" alt="" aria-hidden="true">
+                </div>
+                <div class="captcha-footer-icon-container">
+                  <img src="/assets/icons/headphones.svg" alt="" aria-hidden="true">
+                </div>
+                <div class="captcha-footer-icon-container">
+                  <img src="/assets/icons/info.svg" alt="" aria-hidden="true">
+                </div>
+              </div>
+              <button type="button" class="captcha-verify" data-i18n="captcha.verify">{{t:captcha.verify}}</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT -->
+    <div class="layout-right">
+      <div class="content-stack">
+        <div class="content-stack-inner">
+          <h1 class="title-select">
+            <span>DEVIANNT</span>
+            <i class="line left"></i>
+            <i class="line right"></i>
+            <i class="dot-left"></i>
+            <i class="dot-right"></i>
+          </h1>
+
+          <p class="subtitle">
+            <span class="typed-text">{{t:subtitle.deviannt}}</span><span class="cursor"></span>
+          </p>
+
+          <p class="description">
+            {{th:desc.deviannt}}
+          </p>
+
+          <p class="description description--indented" data-i18n="indented.about.services">
+            {{th:indented.about.services}}
+          </p>
+
+        </div>
+      </div>
+
+      <!-- SOCIAL CARD -->
+      <div class="social-wrapper no-transition position-about">
+        <div class="social-card">
+          <div class="social-card__inner">
+            <div class="social-card__label" data-i18n="social.label">{{t:social.label}}</div>
+            <div class="social-card__content">
+              <a href="https://www.linkedin.com/in/annais-molina-fuentes/" target="_blank" rel="noopener noreferrer">
+                <img src="/assets/icons/linkedin-circle.svg" alt="LinkedIn" class="social-icon">
+              </a>
+              <a href="https://github.com/devianntsec" target="_blank" rel="noopener noreferrer">
+                <img src="/assets/icons/github-circle.svg" alt="GitHub" class="social-icon">
+              </a>
+              <span class="social-card__handle">@devianntsec</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BACKGROUND ELEMENTS -->
+  <canvas id="bg-wave"></canvas>
+  <canvas id="bg-wave-tl"></canvas>
+  <svg id="connector-layer">
+    <line id="connection-path"></line>
+  </svg>
+
+  <!-- SCRIPTS -->
+  <script>
+    window.DEFAULT_LANG = '{{defaultLang}}';
+    // {{forcedComment}}
+    window.LANG_FORCED_BY_URL = {{forced}};
+  </script>
+
+  <script src="{{v:/js/core.js}}" defer></script>
+  <script src="{{v:/js/i18n.js}}" defer></script>
+  <script src="{{v:/js/titles.js}}" defer></script>
+  <script src="{{v:/js/text-fit.js}}" defer></script>
+  <script src="{{v:/js/waves.js}}" defer></script>
+  <script src="{{v:/js/tilt-effect.js}}" defer></script>
+  <script src="{{v:/js/captcha.js}}" defer></script>
+  <script src="{{v:/js/navigation.js}}" defer></script>
+  <script src="{{v:/js/connection.js}}" defer></script>
+  <script src="{{v:/js/scroll-navigation.js}}" defer></script>
+  <script src="{{v:/js/blog-feed.js}}" defer></script>
+  <script src="{{v:/js/photos-config.js}}" defer></script>
+  <script src="{{v:/js/main.js}}" defer></script>
+
+</body>
+</html>

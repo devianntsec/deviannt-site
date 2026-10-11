@@ -162,25 +162,25 @@ const navigation = {
               <div class="contact-grid-expanded">
                 <div class="contact-row-expanded">
                   <a href="https://www.linkedin.com/in/annais-molina-fuentes/" target="_blank" rel="noopener noreferrer" class="contact-icon-item-expanded">
-                    <div class="contact-icon-wrapper-expanded"><img src="assets/icons/linkedin-circle.svg" alt="LinkedIn" class="contact-icon-svg-expanded"></div>
+                    <div class="contact-icon-wrapper-expanded"><img src="/assets/icons/linkedin-circle.svg" alt="LinkedIn" class="contact-icon-svg-expanded"></div>
                     <span class="contact-icon-text-expanded">LinkedIn</span>
                   </a>
                   <a href="https://github.com/devianntsec" target="_blank" rel="noopener noreferrer" class="contact-icon-item-expanded">
-                    <div class="contact-icon-wrapper-expanded"><img src="assets/icons/github-circle.svg" alt="GitHub" class="contact-icon-svg-expanded"></div>
+                    <div class="contact-icon-wrapper-expanded"><img src="/assets/icons/github-circle.svg" alt="GitHub" class="contact-icon-svg-expanded"></div>
                     <span class="contact-icon-text-expanded">GitHub</span>
                   </a>
                   <a href="https://t.me/devianntsec" target="_blank" rel="noopener noreferrer" class="contact-icon-item-expanded">
-                    <div class="contact-icon-wrapper-expanded"><img src="assets/icons/telegram-circle.svg" alt="Telegram" class="contact-icon-svg-expanded"></div>
+                    <div class="contact-icon-wrapper-expanded"><img src="/assets/icons/telegram-circle.svg" alt="Telegram" class="contact-icon-svg-expanded"></div>
                     <span class="contact-icon-text-expanded">Telegram</span>
                   </a>
                 </div>
                 <div class="contact-row-expanded">
-                  <a href="#" class="contact-icon-item-expanded email-copy-trigger" data-email="me@deviannt.com">
-                    <div class="contact-icon-wrapper-expanded"><img src="assets/icons/envelope-circle.svg" alt="Email" class="contact-icon-svg-expanded"></div>
+                  <a href="mailto:me@deviannt.com" class="contact-icon-item-expanded email-copy-trigger" data-email="me@deviannt.com">
+                    <div class="contact-icon-wrapper-expanded"><img src="/assets/icons/envelope-circle.svg" alt="Email" class="contact-icon-svg-expanded"></div>
                     <span class="contact-icon-text-expanded">Email</span>
                   </a>
                   <a href="https://instagram.com/devianntsec" target="_blank" rel="noopener noreferrer" class="contact-icon-item-expanded">
-                    <div class="contact-icon-wrapper-expanded"><img src="assets/icons/instagram-circle.svg" alt="Instagram" class="contact-icon-svg-expanded"></div>
+                    <div class="contact-icon-wrapper-expanded"><img src="/assets/icons/instagram-circle.svg" alt="Instagram" class="contact-icon-svg-expanded"></div>
                     <span class="contact-icon-text-expanded">Instagram</span>
                   </a>
                 </div>
@@ -198,7 +198,7 @@ const navigation = {
             e.preventDefault();
             const email = emailTrigger.dataset.email;
             navigator.clipboard.writeText(email).then(() => {
-              if (window.toast) window.toast.show(`${email} copiado al portapapeles!`);
+              if (window.toast) window.toast.show(`${email} — ${i18n.getText('toast.copied')}`);
             }).catch(() => {
               const textarea = document.createElement('textarea');
               textarea.value = email;
@@ -206,7 +206,7 @@ const navigation = {
               textarea.select();
               document.execCommand('copy');
               document.body.removeChild(textarea);
-              if (window.toast) window.toast.show(`${email} copiado al portapapeles`);
+              if (window.toast) window.toast.show(`${email} — ${i18n.getText('toast.copied')}`);
             });
           });
         }
@@ -224,10 +224,10 @@ const navigation = {
             <div class="social-card__label">social media</div>
             <div class="social-card__content">
               <a href="https://www.linkedin.com/in/annais-molina-fuentes/" target="_blank" rel="noopener noreferrer">
-                <img src="assets/icons/linkedin-circle.svg" alt="LinkedIn" class="social-icon">
+                <img src="/assets/icons/linkedin-circle.svg" alt="LinkedIn" class="social-icon">
               </a>
               <a href="https://github.com/devianntsec" target="_blank" rel="noopener noreferrer">
-                <img src="assets/icons/github-circle.svg" alt="GitHub" class="social-icon">
+                <img src="/assets/icons/github-circle.svg" alt="GitHub" class="social-icon">
               </a>
               <span class="social-card__handle">@devianntsec</span>
             </div>
@@ -1402,10 +1402,42 @@ const navigation = {
       });
     }
 
+    // ===========================
+    // URLs reales por sección (#about, #projects, #blog, #contact)
+    // - Cada link de la navbar tiene href="#sección" (ya no "#"), así que se
+    //   puede compartir, abrir en otra pestaña y funciona el botón Atrás.
+    // - Click real del usuario  -> history.pushState (nueva entrada de historial)
+    // - Click programático (rueda/teclado de scroll-navigation.js) -> replaceState,
+    //   para no llenar el historial con una entrada por cada paso de scroll.
+    // - Atrás/Adelante (popstate) -> se vuelve a disparar el click del link con
+    //   la marca _fromHistory, así los listeners delegados (text-fit, connection)
+    //   siguen funcionando igual que con un click normal.
+    // ===========================
+    const sectionFromLink = (link) => link.dataset.title;
+    const linkFromHash = () => {
+      const hash = window.location.hash.replace('#', '').toLowerCase();
+      if (!hash) return links.find(l => l.dataset.title === 'deviannt') || null;
+      return links.find(l => (l.getAttribute('href') || '').replace('#', '').toLowerCase() === hash) || null;
+    };
+
     links.forEach(link => {
       link.addEventListener("click", (e) => {
         e.preventDefault();
+        const fromHistory = link._fromHistory === true;
+        link._fromHistory = false;
         if (this.isAnimating) return;
+
+        if (!fromHistory && window.history?.pushState) {
+          const target = window.location.pathname + window.location.search + (link.getAttribute('href') || '');
+          const current = window.location.pathname + window.location.search + window.location.hash;
+          if (target !== current) {
+            try {
+              if (e.isTrusted) window.history.pushState({ section: sectionFromLink(link) }, '', target);
+              else window.history.replaceState({ section: sectionFromLink(link) }, '', target);
+            } catch (err) { /* file:// u otros contextos sin history */ }
+          }
+        }
+
         links.forEach(l => {
           l.classList.remove("active");
           l.removeAttribute('aria-current');
@@ -1413,9 +1445,28 @@ const navigation = {
         link.classList.add("active");
         link.setAttribute('aria-current', 'page');
         moveSelector(link);
-        setSectionState.call(this, link.dataset.title);
+        setSectionState.call(this, sectionFromLink(link));
       });
     });
+
+    const goToHashSection = (attempt = 0) => {
+      const target = linkFromHash();
+      if (!target || target.classList.contains('active')) return;
+      if (this.isAnimating && attempt < 5) {
+        setTimeout(() => goToHashSection(attempt + 1), 450);
+        return;
+      }
+      target._fromHistory = true;
+      target.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true }));
+    };
+
+    window.addEventListener('popstate', () => goToHashSection());
+
+    // Llegada directa con hash (p. ej. /es/#projects): esperar a que termine
+    // la inicialización de títulos/posiciones antes de animar a la sección.
+    if (linkFromHash() && !linkFromHash().classList.contains('active')) {
+      setTimeout(() => goToHashSection(), 700);
+    }
 
     window.addEventListener("resize", () => {
       if (this.isAnimating) return;

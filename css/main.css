@@ -180,3 +180,32 @@ nav,
   body { background: white; color: black; }
   a    { text-decoration: underline; color: black; }
 }
+/* ==========================================================================
+   10. UTILIDADES DE ACCESIBILIDAD
+   ========================================================================== */
+/* Visible solo para lectores de pantalla (live region de cambio de sección) */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Contenido mínimo cuando JS está desactivado */
+.noscript-note {
+  position: relative;
+  z-index: 100;
+  max-width: 640px;
+  margin: 96px auto 0;
+  padding: 16px 20px;
+  background: rgba(11, 18, 32, 0.92);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+  line-height: 1.6;
+}
+.noscript-note a { color: var(--accent-blue); }

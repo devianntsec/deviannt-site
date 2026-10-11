@@ -95,7 +95,8 @@ class ConnectionLine {
         this.animationFrameId = null;
         return;
       }
-      if (!this.isAnimating) this.update();
+      // No medir layout (getBoundingClientRect) con la pestaña oculta.
+      if (!this.isAnimating && !document.hidden) this.update();
       this.animationFrameId = requestAnimationFrame(updateLoop);
     };
     this.animationFrameId = requestAnimationFrame(updateLoop);

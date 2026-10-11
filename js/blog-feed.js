@@ -8,8 +8,11 @@ const blogFeed = {
   BLOG_URL: 'https://blog.deviannt.com',
   BLOG_URL_ES: 'https://blog.deviannt.com/es',
   MAX_POSTS: 3,
+  FETCH_TIMEOUT_MS: 6000,     // si el blog no responde, se muestra el fallback
+  CACHE_TTL_MS: 10 * 60 * 1000, // cache en sessionStorage (evita pedir index.json en cada visita a la sección)
   isInitialized: false,
   isLoaded: false,
+  _controller: null,
 
   init() {
     this.isInitialized = true;
@@ -28,33 +31,73 @@ const blogFeed = {
     return `${baseUrl}/index.json`;
   },
 
+  _cacheKey(url) { return 'blogfeed:' + url; },
+
+  _readCache(url) {
+    try {
+      const raw = sessionStorage.getItem(this._cacheKey(url));
+      if (!raw) return null;
+      const { t, data } = JSON.parse(raw);
+      return { fresh: Date.now() - t < this.CACHE_TTL_MS, data };
+    } catch (e) { return null; }
+  },
+
+  _writeCache(url, data) {
+    try { sessionStorage.setItem(this._cacheKey(url), JSON.stringify({ t: Date.now(), data })); }
+    catch (e) { /* cuota llena o storage no disponible */ }
+  },
+
   load() {
     if (this.isLoaded) return;
 
     const container = document.querySelector('.blog-feed-container');
     if (!container) return;
 
+    const feedUrl = this.getFeedUrl();
+    const cached = this._readCache(feedUrl);
+
+    // Cache fresca: render inmediato, sin red.
+    if (cached && cached.fresh) {
+      this._render(container, this._parsePosts(cached.data));
+      this.isLoaded = true;
+      return;
+    }
+
     this._showSkeleton(container);
 
-    const feedUrl = this.getFeedUrl();
+    // Cancelar cualquier request anterior (cambio rápido de idioma/sección) y
+    // poner un timeout para no dejar el skeleton colgado si el blog no responde.
+    if (this._controller) this._controller.abort();
+    const controller = new AbortController();
+    this._controller = controller;
+    const timer = setTimeout(() => controller.abort(), this.FETCH_TIMEOUT_MS);
 
-    fetch(feedUrl)
+    fetch(feedUrl, { signal: controller.signal })
       .then(res => {
         if (!res.ok) throw new Error('Feed no disponible');
         return res.json();
       })
       .then(data => {
-        const posts = this._parsePosts(data);
-        this._render(container, posts);
+        this._writeCache(feedUrl, data);
+        this._render(container, this._parsePosts(data));
         this.isLoaded = true;
       })
-      .catch(() => {
-        this._renderFallback(container);
+      .catch((err) => {
+        // Abort por reset()/cambio de idioma: no pintar nada, la nueva carga se encarga.
+        if (err && err.name === 'AbortError' && this._controller !== controller) return;
+        // Si la red falla pero hay cache (aunque vencida), es mejor que el fallback.
+        if (cached && cached.data) {
+          this._render(container, this._parsePosts(cached.data));
+        } else {
+          this._renderFallback(container);
+        }
         this.isLoaded = true;
-      });
+      })
+      .finally(() => clearTimeout(timer));
   },
 
   reset() {
+    if (this._controller) { this._controller.abort(); this._controller = null; }
     this.isLoaded = false;
     const container = document.querySelector('.blog-feed-container');
     if (container) container.innerHTML = '';
@@ -142,8 +185,8 @@ const blogFeed = {
       return;
     }
 
-    const label = i18n.getText('blog.feed.label');
-    const viewAll = i18n.getText('blog.feed.viewall');
+    const label = this._escapeHTML(i18n.getText('blog.feed.label'));
+    const viewAll = this._escapeHTML(i18n.getText('blog.feed.viewall'));
     // Usar la URL del blog según el idioma para el enlace "ver todos"
     const blogUrl = window.i18n && window.i18n.currentLang === 'es' ? this.BLOG_URL_ES : this.BLOG_URL;
 
@@ -210,9 +253,9 @@ const blogFeed = {
   },
 
   _renderFallback(container) {
-    const label = i18n.getText('blog.feed.label');
-    const fallbackText = i18n.getText('blog.fallback.text');
-    const fallbackBtn = i18n.getText('blog.fallback.btn');
+    const label = this._escapeHTML(i18n.getText('blog.feed.label'));
+    const fallbackText = this._escapeHTML(i18n.getText('blog.fallback.text'));
+    const fallbackBtn = this._escapeHTML(i18n.getText('blog.fallback.btn'));
     const blogUrl = window.i18n && window.i18n.currentLang === 'es' ? this.BLOG_URL_ES : this.BLOG_URL;
     const safeBlogUrl = this._safeUrl(blogUrl, this.BLOG_URL);
 

@@ -3,7 +3,7 @@
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://deviannt.com/</loc>
-    <lastmod>2026-05-03</lastmod>
+    <lastmod>2026-10-11</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://deviannt.com/en/" />
@@ -12,7 +12,7 @@
   </url>
   <url>
     <loc>https://deviannt.com/en/</loc>
-    <lastmod>2026-05-03</lastmod>
+    <lastmod>2026-10-11</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://deviannt.com/en/" />
@@ -21,7 +21,7 @@
   </url>
   <url>
     <loc>https://deviannt.com/es/</loc>
-    <lastmod>2026-05-03</lastmod>
+    <lastmod>2026-10-11</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://deviannt.com/en/" />

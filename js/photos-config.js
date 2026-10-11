@@ -8,13 +8,13 @@
 //   width, height → tamaño en % del wrapper
 //
 // Ejemplo real futuro:
-//   { src: 'assets/images/photo1.jpg', label: 'Annais Molina', box: { top: '15%', left: '40%', width: '35%', height: '38%' } }
+//   { src: '/assets/images/photo1.jpg', label: 'Annais Molina', box: { top: '15%', left: '40%', width: '35%', height: '38%' } }
 // ==========================================================================
 
 const PHOTO_CONFIG = [
   {
     id: 'photo_02',
-    src: 'assets/images/instagram-post-image2.png',
+    src: '/assets/images/instagram-post-image2.png',
     label: 'Annais Molina',
     // --- Sujeto desplazado a la derecha ---
     box: {
@@ -26,7 +26,7 @@ const PHOTO_CONFIG = [
   },
   {
     id: 'photo_03',
-    src: 'assets/images/instagram-post-image3.png',
+    src: '/assets/images/instagram-post-image3.png',
     label: 'Annais Molina',
     // --- Sujeto más centrado y grande (plano medio) ---
     box: {
@@ -38,7 +38,7 @@ const PHOTO_CONFIG = [
   },
   {
     id: 'photo_05',
-    src: 'assets/images/instagram-post-image5.png',
+    src: '/assets/images/instagram-post-image5.png',
     label: 'Annais Molina',
     // --- Sujeto arriba a la izquierda ---
     box: {

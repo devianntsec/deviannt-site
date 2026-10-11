@@ -15,7 +15,6 @@
 (function () {
   const MIN_FONT_SIZE = 10;   // px — piso mínimo, nunca baja de aquí
   const SAFETY_MARGIN = 0.985; // pequeño colchón anti-overflow por redondeo subpíxel
-  const FINE_STEP = 0.25;      // px — paso de ajuste fino (solo corrige residuos)
 
   function getTargetElement() {
     const el = document.querySelector('.description--indented:not(.projects-links-mode)');
@@ -38,26 +37,27 @@
     // Si ya cabe, no tocar nada (ajuste mínimo = ningún ajuste)
     if (scrollW <= clientW || clientW <= 0) return;
 
-    // 2) Calcular el factor de escala exacto en un solo paso
-    const ratio = (clientW / scrollW) * SAFETY_MARGIN;
-    let newSize = Math.max(MIN_FONT_SIZE, baseFontSize * ratio);
+    // 2) Escala proporcional en un paso. Sin bucle de 20 iteraciones escribiendo
+    //    font-size y leyendo scrollWidth en cada una (layout thrashing): como mucho
+    //    se hacen 2 correcciones proporcionales por el residuo de letter-spacing.
+    let newSize = Math.max(MIN_FONT_SIZE, baseFontSize * (clientW / scrollW) * SAFETY_MARGIN);
     el.style.fontSize = newSize + 'px';
 
-    // 3) Ajuste fino: corrige el pequeño residuo si el escalado lineal
-    //    no fue perfecto (letter-spacing no escala igual que el texto)
-    let guard = 0;
-    while (el.scrollWidth > el.clientWidth && newSize > MIN_FONT_SIZE && guard < 20) {
-      newSize -= FINE_STEP;
+    for (let pass = 0; pass < 2 && newSize > MIN_FONT_SIZE; pass++) {
+      const w = el.scrollWidth;
+      const c = el.clientWidth;
+      if (w <= c) break;
+      newSize = Math.max(MIN_FONT_SIZE, newSize * (c / w) * SAFETY_MARGIN);
       el.style.fontSize = newSize + 'px';
-      guard++;
     }
   }
 
-  let resizeTimeout;
+  let rafId = 0;
   function scheduleFit() {
-    clearTimeout(resizeTimeout);
-    resizeTimeout = setTimeout(fitDescriptionText, 50);
+    cancelAnimationFrame(rafId);
+    rafId = requestAnimationFrame(fitDescriptionText);
   }
+
 
   window.addEventListener('resize', scheduleFit);
   window.addEventListener('load', () => setTimeout(fitDescriptionText, 100));

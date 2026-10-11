@@ -14,6 +14,8 @@ const Waves = (function() {
     WAVE_RADIUS: 1.5,
     MOUSE_DECAY: 0.02,
     MAX_PERTURBATIONS: 20,
+    TARGET_FPS: 30,          // el efecto es lento y suave: 30fps es indistinguible de 60 y gasta la mitad
+    TARGET_FPS_LOW_END: 20,  // equipos con pocos núcleos / modo ahorro de datos
     COLORS: {
       // Dark theme: fondo negro → azul oscuro profundo
       BASE_BLUE: [37, 99, 235],   // #2563EB
@@ -41,7 +43,15 @@ const Waves = (function() {
     animationFrame: null,
     isInitialized: false,
     isVisible: true,
-    handlers: null
+    handlers: null,
+    lastFrame: 0,
+    frameInterval: 1000 / 30,
+    inViewBR: true,
+    inViewTL: true,
+    observer: null,
+    rowColorsBR: null,
+    rowColorsTL: null,
+    rowColorsRows: { br: 0, tl: 0 }
   };
 
   // ==========================================================================
@@ -111,11 +121,33 @@ const Waves = (function() {
     if (!state.ctxBR || !state.ctxTL) return;
     resizeCanvas(state.canvasBR, state.ctxBR);
     resizeCanvas(state.canvasTL, state.ctxTL);
+    state.rowColorsBR = state.rowColorsTL = null;
   }
 
   function lerp(a, b, t) { return a + (b - a) * t; }
 
   function clamp(v, min = 0, max = 1) { return Math.min(max, Math.max(min, v)); }
+
+  // El color de una celda depende SOLO de su fila (fade depende de y), así que se
+  // calcula una vez por fila en vez de una vez por celda y por frame (antes: miles
+  // de lerp + template strings por frame).
+  function getRowColors(origin, rows) {
+    const key = origin === "br" ? "rowColorsBR" : "rowColorsTL";
+    if (state[key] && state.rowColorsRows[origin] === rows) return state[key];
+    const fadePower = origin === "br" ? CONFIG.ANIMATION.FADE_POWER_BR : CONFIG.ANIMATION.FADE_POWER_TL;
+    const colors = new Array(rows);
+    for (let y = 0; y < rows; y++) {
+      const fade = origin === "br"
+        ? clamp(Math.pow(y / rows, fadePower))
+        : clamp(Math.pow((rows - y) / rows, fadePower));
+      colors[y] = `rgb(${Math.round(lerp(CONFIG.COLORS.WHITE[0], CONFIG.COLORS.BASE_BLUE[0], fade))},` +
+                  `${Math.round(lerp(CONFIG.COLORS.WHITE[1], CONFIG.COLORS.BASE_BLUE[1], fade))},` +
+                  `${Math.round(lerp(CONFIG.COLORS.WHITE[2], CONFIG.COLORS.BASE_BLUE[2], fade))})`;
+    }
+    state[key] = colors;
+    state.rowColorsRows[origin] = rows;
+    return colors;
+  }
 
   function drawWave(ctx, canvas, now, origin) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -127,9 +159,18 @@ const Waves = (function() {
     const cols    = Math.ceil(canvas.width  / CONFIG.GRID_SIZE);
     const rows    = Math.ceil(canvas.height / CONFIG.GRID_SIZE);
     const maxDist = Math.hypot(cols, rows);
+    const rowColors = getRowColors(origin, rows);
 
-    for (let y = 0; y < rows; y++) {
-      for (let x = 0; x < cols; x++) {
+    // canvas.width/height están en píxeles de dispositivo (x dpr) pero se dibuja en
+    // coordenadas CSS (setTransform(dpr)). cols/rows se mantienen tal cual porque
+    // definen la fase de la ola (el look no cambia), pero solo se recorren las celdas
+    // que caen dentro del área visible: en pantallas dpr=2 son ~4x menos fillRect.
+    const dpr  = window.devicePixelRatio || 1;
+    const xMax = Math.min(cols, Math.ceil(canvas.width  / dpr / CONFIG.GRID_SIZE) + 1);
+    const yMax = Math.min(rows, Math.ceil(canvas.height / dpr / CONFIG.GRID_SIZE) + 1);
+
+    for (let y = 0; y < yMax; y++) {
+      for (let x = 0; x < xMax; x++) {
         const px = x * CONFIG.GRID_SIZE;
         const py = y * CONFIG.GRID_SIZE;
 
@@ -150,21 +191,7 @@ const Waves = (function() {
           scale -= (Math.cos(dist * Math.PI) * 0.3 * p.strength) || 0;
         }
 
-        const fadePower = origin === "br" ? CONFIG.ANIMATION.FADE_POWER_BR : CONFIG.ANIMATION.FADE_POWER_TL;
-        let fade;
-        if (origin === "br") {
-          fade = clamp(Math.pow(y / rows, fadePower));
-        } else {
-          fade = clamp(Math.pow((rows - y) / rows, fadePower));
-        }
-
-        const [r, g, b] = [
-          lerp(CONFIG.COLORS.WHITE[0], CONFIG.COLORS.BASE_BLUE[0], fade),
-          lerp(CONFIG.COLORS.WHITE[1], CONFIG.COLORS.BASE_BLUE[1], fade),
-          lerp(CONFIG.COLORS.WHITE[2], CONFIG.COLORS.BASE_BLUE[2], fade)
-        ];
-
-        ctx.fillStyle = `rgb(${Math.round(r)},${Math.round(g)},${Math.round(b)})`;
+        ctx.fillStyle = rowColors[y];
         const offset = (CONFIG.GRID_SIZE - CONFIG.GRID_SIZE * scale) / 2;
         ctx.fillRect(px + offset, py + offset, CONFIG.GRID_SIZE * scale, CONFIG.GRID_SIZE * scale);
       }
@@ -183,12 +210,32 @@ const Waves = (function() {
   function animate(now) {
     if (!state.ctxBR || !state.ctxTL) return;
 
-    if (state.isVisible) {
-      drawWave(state.ctxBR, state.canvasBR, now, "br");
-      drawWave(state.ctxTL, state.canvasTL, now, "tl");
-    }
-
     state.animationFrame = requestAnimationFrame(animate);
+
+    // Limitar FPS y no pintar si la pestaña está oculta o el canvas fuera de viewport.
+    if (now - state.lastFrame < state.frameInterval) return;
+    state.lastFrame = now;
+    if (!state.isVisible) return;
+
+    if (state.inViewBR) drawWave(state.ctxBR, state.canvasBR, now, "br");
+    if (state.inViewTL) drawWave(state.ctxTL, state.canvasTL, now, "tl");
+  }
+
+  function setupObserver() {
+    if (!('IntersectionObserver' in window)) return;
+    state.observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.target === state.canvasBR) state.inViewBR = entry.isIntersecting;
+        if (entry.target === state.canvasTL) state.inViewTL = entry.isIntersecting;
+      });
+    });
+    state.observer.observe(state.canvasBR);
+    state.observer.observe(state.canvasTL);
+  }
+
+  function isLowEnd() {
+    const conn = navigator.connection;
+    return (conn && conn.saveData) || (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4);
   }
 
   function handleVisibilityChange() {
@@ -203,7 +250,9 @@ const Waves = (function() {
       if (state.isInitialized) return;
       if (!setupCanvas()) return;
 
+      state.frameInterval = 1000 / (isLowEnd() ? CONFIG.TARGET_FPS_LOW_END : CONFIG.TARGET_FPS);
       setupEvents();
+      setupObserver();
       resizeAll();
       window.addEventListener("resize", resizeAll);
       document.addEventListener("visibilitychange", handleVisibilityChange);
@@ -236,6 +285,7 @@ const Waves = (function() {
         state.canvasTL?.removeEventListener("mousedown", state.handlers.tl);
       }
 
+      if (state.observer) { state.observer.disconnect(); state.observer = null; }
       window.removeEventListener("resize", resizeAll);
       document.removeEventListener("visibilitychange", handleVisibilityChange);
       state.isInitialized = false;

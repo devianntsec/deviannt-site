@@ -1,4 +1,13 @@
 // js/i18n.js - Sistema de internacionalización
+// localStorage puede lanzar (modo privado de Safari, cookies bloqueadas).
+const safeStorage = {
+  get(key) { try { return localStorage.getItem(key); } catch (e) { return null; } },
+  set(key, value) { try { localStorage.setItem(key, value); } catch (e) { /* noop */ } }
+};
+window.safeStorage = safeStorage;
+
+const SITE_ORIGIN = 'https://deviannt.com';
+
 const i18n = {
   currentLang: 'en',
   translations: {},
@@ -11,11 +20,11 @@ const i18n = {
     // si no, cambiar de idioma nunca "se pega" al refrescar /es/.
     if (window.LANG_FORCED_BY_URL && this.translations[window.DEFAULT_LANG]) {
       this.currentLang = window.DEFAULT_LANG;
-      localStorage.setItem('lang', this.currentLang);
+      safeStorage.set('lang', this.currentLang);
     }
     // 1. Si no, preferencia guardada en localStorage
     else {
-      const saved = localStorage.getItem('lang');
+      const saved = safeStorage.get('lang');
       if (saved && this.translations[saved]) {
         this.currentLang = saved;
       }
@@ -35,6 +44,7 @@ const i18n = {
     this.apply();
     this.setupSelector();
     this.updateFlag();
+    window.__baseTitle = this.getText('meta.title');
     this.listeners.forEach(fn => fn(this.currentLang));
   },
 
@@ -52,25 +62,106 @@ const i18n = {
   setLanguage(lang) {
     if (!this.translations[lang] || lang === this.currentLang) return;
     this.currentLang = lang;
-    localStorage.setItem('lang', lang);
+    safeStorage.set('lang', lang);
     this.apply();
     this.updateSelectorUI();
     this.updateFlag();
     this._syncUrl(lang);
+    this._syncMeta(lang);
     this.listeners.forEach(fn => fn(lang));
   },
 
   // ===================================================================================
-  // Mantener la URL en /en/ o /es/ en sync con el toggle manual, sin recargar la página
+  // Mantener la URL en /en/ o /es/ en sync con el toggle manual, sin recargar la página.
+  // /en/ y /es/ existen como archivos estáticos, así que la URL resultante es válida
+  // si se recarga o se comparte.
   // ===================================================================================
+  _isLangRoute() {
+    const path = window.location.pathname;
+    return path === '/' || path === '/en/' || path === '/en' || path === '/es/' || path === '/es';
+  },
+
   _syncUrl(lang) {
     if (!window.history?.replaceState) return;
-    const path = window.location.pathname;
-    const alreadyOnLangRoute = path === '/en/' || path === '/en' || path === '/es/' || path === '/es';
-    if (!alreadyOnLangRoute && path !== '/') return; // no tocar rutas desconocidas
+    if (!this._isLangRoute()) return; // no tocar rutas desconocidas
     const newPath = `/${lang}/`;
-    if (path !== newPath) {
-      window.history.replaceState(null, '', newPath + window.location.search + window.location.hash);
+    if (window.location.pathname !== newPath) {
+      window.history.replaceState(window.history.state, '', newPath + window.location.search + window.location.hash);
+    }
+  },
+
+  // ===================================================================================
+  // Mantener canonical / og:url / title / description / og:locale coherentes con la URL
+  // y el idioma activo tras un cambio manual (sin recarga). Los textos salen de las
+  // claves meta.* de las traducciones, que también usa build/build.mjs para generar
+  // el <head> estático: una sola fuente de verdad.
+  // hreflang NO se toca: es el mismo conjunto de alternativas en ambos idiomas.
+  // ===================================================================================
+  _syncMeta(lang) {
+    if (!this._isLangRoute()) return;
+    const url = `${SITE_ORIGIN}/${lang}/`;
+    const t = (k) => this.getText(k);
+    const setAttr = (sel, attr, value) => {
+      const el = document.querySelector(sel);
+      if (el && value) el.setAttribute(attr, value);
+    };
+    setAttr('link[rel="canonical"]', 'href', url);
+    setAttr('meta[property="og:url"]', 'content', url);
+    setAttr('meta[property="og:locale"]', 'content', t('meta.ogLocale'));
+    setAttr('meta[name="description"]', 'content', t('meta.description'));
+    setAttr('meta[property="og:title"]', 'content', t('meta.title'));
+    setAttr('meta[property="og:description"]', 'content', t('meta.description'));
+    setAttr('meta[name="twitter:title"]', 'content', t('meta.title'));
+    setAttr('meta[name="twitter:description"]', 'content', t('meta.description'));
+    // El <title> lo gestiona titles.js (depende también de la sección activa).
+    window.__baseTitle = t('meta.title');
+  },
+
+  // ===================================================================================
+  // HTML seguro para traducciones. En vez de asignar innerHTML con el texto crudo,
+  // se parsea en un documento inerte y se reconstruye SOLO con una lista blanca de
+  // etiquetas y atributos. Si algún día una traducción viene de fuera, no puede
+  // inyectar <script>, <img onerror>, javascript: URLs, etc.
+  // ===================================================================================
+  _ALLOWED_TAGS: new Set(['SPAN', 'A', 'STRONG', 'EM', 'B', 'I', 'BR', 'CODE']),
+  _ALLOWED_ATTRS: new Set(['class', 'href', 'target', 'rel']),
+
+  sanitize(html) {
+    const doc = new DOMParser().parseFromString(`<body>${html}</body>`, 'text/html');
+    const frag = document.createDocumentFragment();
+    const walk = (src, dst) => {
+      src.childNodes.forEach(node => {
+        if (node.nodeType === Node.TEXT_NODE) {
+          dst.appendChild(document.createTextNode(node.textContent));
+        } else if (node.nodeType === Node.ELEMENT_NODE && this._ALLOWED_TAGS.has(node.tagName)) {
+          const el = document.createElement(node.tagName.toLowerCase());
+          Array.from(node.attributes).forEach(attr => {
+            if (!this._ALLOWED_ATTRS.has(attr.name)) return;
+            if (attr.name === 'href') {
+              try {
+                const u = new URL(attr.value, window.location.origin);
+                if (!['http:', 'https:', 'mailto:'].includes(u.protocol)) return;
+              } catch (e) { return; }
+            }
+            el.setAttribute(attr.name, attr.value);
+          });
+          if (el.getAttribute('target') === '_blank') el.setAttribute('rel', 'noopener noreferrer');
+          walk(node, el);
+          dst.appendChild(el);
+        }
+        // Cualquier otro nodo/etiqueta se descarta.
+      });
+    };
+    walk(doc.body, frag);
+    return frag;
+  },
+
+  setHTML(el, html) {
+    if (!el) return;
+    if (html.includes('<') || html.includes('>')) {
+      el.replaceChildren(this.sanitize(html));
+    } else {
+      el.textContent = html;
     }
   },
 
@@ -79,11 +170,7 @@ const i18n = {
       const key = el.getAttribute('data-i18n');
       const text = this.getText(key);
       if (text !== undefined) {
-        if (text.includes('<') || text.includes('>')) {
-          el.innerHTML = text;
-        } else {
-          el.textContent = text;
-        }
+        this.setHTML(el, text);
       }
     });
     document.documentElement.lang = this.currentLang;
@@ -145,6 +232,10 @@ const i18n = {
 // Traducciones
 i18n.translations = {
   en: {
+    // ─── META (usadas por build/build.mjs y por _syncMeta) ───
+    'meta.title': 'deviannt | Offensive Security Engineer',
+    'meta.description': 'Annais Molina Fuentes (devianntsec) — offensive security researcher. CVE-2025-55182 (CVSS 10.0), BYOVD kernel research, exploit development.',
+    'meta.ogLocale': 'en_US',
     'navbar.about': 'about me',
     'navbar.projects': 'projects',
     'navbar.blog': 'blog',
@@ -169,6 +260,7 @@ i18n.translations = {
     'captcha.title': 'VERIFY PROJECT',
     'captcha.hint': "psst — it's not a real captcha, just click a project",
     'captcha.verify': 'VERIFY',
+    'captcha.verified': 'project selected — links below',
     // ─── Proyectos reales ───
     'project.react.title': 'CVE-2025-55182 — React2Shell',
     'project.react.desc': 'Critical RCE (CVSS 10.0) affecting React Server Components. Unauthenticated attackers can execute arbitrary code on the server via prototype pollution in the Flight protocol. This repository contains my Master\'s Thesis research, including a full exploit framework, interactive reverse shell, and a vulnerable laboratory for portfolio demonstration.',
@@ -176,12 +268,12 @@ i18n.translations = {
     'project.react.link.blog': 'blog',
     'project.react.link.cve': 'cve.org',
     'project.byovd.title': 'CVE-2024-51324 — BYOVD Kernel',
-    'project.byovd.desc': 'BYOVD via BdApiUtil64.sys. Three undocumented kernel primitives reverse-engineered via Ghidra — including one capable of neutralizing an EDR without touching its process. CVSS 9.5 Critical.',
+    'project.byovd.desc': 'BYOVD via BdApiUtil64.sys. Three undocumented kernel primitives reverse-engineered via Ghidra — including one capable of neutralizing an EDR without touching its process. Published CVSS 3.8 (Low).',
     'project.byovd.link.github': 'github',
     'project.byovd.link.blog': 'blog',
     'project.byovd.link.cve': 'cve.org',
     'project.dwm.title': 'CVE-2024-30051 — Windows DWM',
-    'project.dwm.desc': 'Windows DWM heap overflow leading to SYSTEM-level code execution. Empirical heap spray analysis across 50 sessions: 12.9×–19× more deterministic than the theoretical model.',
+    'project.dwm.desc': 'Windows DWM heap overflow leading to SYSTEM-level code execution. Empirical heap spray analysis across 50 sessions: an estimated 12.9×–19× more deterministic than the theoretical model.',
     'project.dwm.link.github': 'github',
     'project.dwm.link.blog': 'blog',
     'project.dwm.link.cve': 'cve.org',
@@ -211,6 +303,9 @@ i18n.translations = {
     'toast.copied': 'copied to clipboard!',
   },
   es: {
+    'meta.title': 'deviannt — Annais Molina Fuentes',
+    'meta.description': 'Annais Molina Fuentes (devianntsec) — investigadora de seguridad ofensiva. CVE-2025-55182 (CVSS 10.0), investigación de kernel BYOVD, exploit development.',
+    'meta.ogLocale': 'es_ES',
     'navbar.about': 'sobre mí',
     'navbar.projects': 'proyectos',
     'navbar.blog': 'blog',
@@ -235,6 +330,7 @@ i18n.translations = {
     'captcha.title': 'VERIFICAR PROYECTO',
     'captcha.hint': 'psst — no es un captcha real, solo elige un proyecto',
     'captcha.verify': 'VERIFICAR',
+    'captcha.verified': 'proyecto seleccionado — enlaces abajo',
     // ─── Proyectos reales ───
     'project.react.title': 'CVE-2025-55182 — React2Shell',
     'project.react.desc': 'RCE crítica (CVSS 10.0) que afecta a React Server Components. Atacantes no autenticados pueden ejecutar código arbitrario en el servidor mediante contaminación de prototipos en el protocolo Flight. Este repositorio contiene mi investigación de Tesis de Máster, incluyendo un framework de exploit completo, shell inversa interactiva y un laboratorio vulnerable para demostración en el portafolio.',
@@ -242,12 +338,12 @@ i18n.translations = {
     'project.react.link.blog': 'blog',
     'project.react.link.cve': 'cve.org',
     'project.byovd.title': 'CVE-2024-51324 — Kernel BYOVD',
-    'project.byovd.desc': 'BYOVD a través de BdApiUtil64.sys. Tres primitivas de kernel no documentadas, reverse-engineered con Ghidra — incluyendo una capaz de neutralizar un EDR sin tocar su proceso. CVSS 9.5 Crítico.',
+    'project.byovd.desc': 'BYOVD a través de BdApiUtil64.sys. Tres primitivas de kernel no documentadas, reverse-engineered con Ghidra — incluyendo una capaz de neutralizar un EDR sin tocar su proceso. CVSS publicado 3.8 (Bajo).',
     'project.byovd.link.github': 'github',
     'project.byovd.link.blog': 'blog',
     'project.byovd.link.cve': 'cve.org',
     'project.dwm.title': 'CVE-2024-30051 — Windows DWM',
-    'project.dwm.desc': 'Desbordamiento de heap en Windows DWM que permite ejecución de código a nivel SYSTEM. Análisis empírico de heap spray en 50 sesiones: 12.9×–19× más determinista que el modelo teórico.',
+    'project.dwm.desc': 'Desbordamiento de heap en Windows DWM que permite ejecución de código a nivel SYSTEM. Análisis empírico de heap spray en 50 sesiones: una estimación de 12.9×–19× más determinista que el modelo teórico.',
     'project.dwm.link.github': 'github',
     'project.dwm.link.blog': 'blog',
     'project.dwm.link.cve': 'cve.org',

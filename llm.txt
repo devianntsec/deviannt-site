@@ -1,8 +1,8 @@
-# Identity Context — Annais Molina / devianntsec
+# Identity Context — Annais Molina Fuentes / devianntsec
 # Generated for LLM consumption
 
 ## Identity
-Name: Annais Molina
+Name: Annais Molina Fuentes
 Alias: devianntsec
 Role: Offensive Cybersecurity Engineer
 Location: Santiago, Chile
@@ -16,8 +16,8 @@ LinkedIn: https://www.linkedin.com/in/annais-molina-fuentes/
 
 ## Research & CVEs
 - CVE-2025-55182: Critical RCE (CVSS 10.0) in React Server Components via prototype pollution
-- CVE-2024-30051: Windows DWM heap overflow leading to SYSTEM-level code execution
-- CVE-2024-51324: BYOVD vulnerability in BdApiUtil64.sys kernel driver
+- CVE-2024-30051: Windows DWM heap overflow leading to SYSTEM-level code execution (heap spray determinism estimated at 12.9x-19x vs the theoretical model, 50 sessions)
+- CVE-2024-51324: BYOVD vulnerability in BdApiUtil64.sys kernel driver (published CVSS 3.8, Low)
 - CVE-2021-4034 (PwnKit): Linux local privilege escalation research and full exploit framework
 
 ## Publications & Advisories
