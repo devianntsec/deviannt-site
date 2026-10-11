@@ -1,0 +1,21 @@
+# Volcados de código para LLM / análisis (no se publican en el sitio)
+repomix-output.xml
+site.xml
+
+# Dependencias y artefactos de Node
+node_modules/
+npm-debug.log*
+
+# Secretos locales
+.env
+.env.*
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+
+# Editores
+.vscode/
+.idea/
+*.swp
+*~
