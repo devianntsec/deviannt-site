@@ -16,9 +16,9 @@
 @font-face {
   font-family: 'Azeret Mono';
   src: url('../assets/fonts/AzeretMono/AzeretMono-VariableFont_wght.woff2')
-       format('woff2-variations'),
+       format('woff2'),
        url('../assets/fonts/AzeretMono/AzeretMono-VariableFont_wght.ttf') 
-       format('truetype-variations');
+       format('truetype');
   font-weight: 100 900;
   font-style: normal;
   font-display: swap; /* Muestra texto con fuente de fallback mientras carga */
@@ -32,8 +32,8 @@
    ========================================================================== */
 @font-face {
   font-family: 'JetBrains Mono';
-  src: url('../assets/fonts/JetBrainsMono/JetBrainsMono-ExtraLight.ttf') 
-       format('truetype');
+  src: url('../assets/fonts/JetBrainsMono/JetBrainsMono-ExtraLight.woff2')
+       format('woff2');
   font-weight: 200; /* ExtraLight */
   font-style: normal;
   font-display: swap;
@@ -41,8 +41,8 @@
 
 @font-face {
   font-family: 'JetBrains Mono';
-  src: url('../assets/fonts/JetBrainsMono/JetBrainsMono-Medium.ttf') 
-       format('truetype');
+  src: url('../assets/fonts/JetBrainsMono/JetBrainsMono-Medium.woff2')
+       format('woff2');
   font-weight: 500; /* Medium */
   font-style: normal;
   font-display: swap;
@@ -54,9 +54,9 @@
 @font-face {
   font-family: 'Inter';
   src: url('../assets/fonts/Inter/Inter-VariableFont_opsz,wght.woff2')
-       format('woff2-variations'),
+       format('woff2'),
        url('../assets/fonts/Inter/Inter-VariableFont_opsz,wght.ttf') 
-       format('truetype-variations');
+       format('truetype');
   font-weight: 100 900;
   font-style: normal;
   font-display: swap;
